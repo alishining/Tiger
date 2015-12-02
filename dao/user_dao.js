@@ -1,0 +1,242 @@
+var mysql = require('mysql');
+var sql = require('./sql_mapping');
+var pool = require('./mysql_pool').mysql_pool();
+var encrypt = require('../tools/encrypt');
+
+var failed = {
+	msg  : "failed",
+	code : -1 
+}
+
+var success = {
+	msg  : "success",
+	code : 0
+}
+
+exports.create_subject = function(req, res) {
+	pool.getConnection(function(err, connection) {
+		try {
+			var user_id = req.session.user_id;
+			var school = req.body.school;
+			var subject = req.body.subject; 
+			var cls = req.body.cls;
+			var subject_id = encrypt.md5(school + subject + cls);
+			var values = [subject_id, user_id, school, subject, cls];
+			connection.query(sql.CREATE_SUBJECT, values, function(err, ret){
+				try {
+					if (ret){
+						res.json(success);
+					} else {
+						res.json(failed);
+					}
+					connection.release();
+				}
+				catch (err){
+					console.log(err);
+					res.json(failed);
+				}
+			}); 
+		} catch (err){
+			console.log(err);
+			res.json(failed);
+		}
+	})
+};
+
+exports.create_student = function(req, res) {
+	pool.getConnection(function(err, connection) {
+		try {
+			var wx_id = req.session.wx_id;
+			var number = req.body.number;
+			var name = req.body.name;
+			var cls = req.body.cls; 
+			var values = [wx_id, number, name, cls];
+			connection.query(sql.CREATE_STUDENT, values, function(err, ret){
+				try {
+					console.log(sql.CREATE_STUDENT);
+					if (ret){
+						res.json(success);
+					} else {
+						res.json(failed);
+					}
+					connection.release();
+				}
+				catch (err){
+					console.log(err);
+					res.json(failed);
+				}
+			}); 
+		} catch (err){
+			console.log(err);
+			res.json(failed);
+		}
+	})
+};
+
+exports.student_sign = function(req, res) {
+	pool.getConnection(function(err, connection) {
+		try {
+			req.session.wx_id = req.body.wx_id;
+			req.session.class_id = req.body.class_id;
+			req.session.subject = req.body.subject;
+			req.session.cls = req.body.cls;
+			var values = [req.body.wx_id]; 
+			connection.query(sql.CHECK_STUDENT, values, function(err, ret){
+				try {
+					if (ret[0].wx_id != undefined){
+						res.json(success);
+					}
+					connection.release();
+				}
+				catch (err){
+					console.log(err);
+					res.json(failed);
+				}
+			}); 
+		} catch (err){
+			console.log(err);
+		}
+	})
+};
+
+exports.post_sign_up = function(req, res) {
+	pool.getconnection(function(err, connection) {
+		try {
+			var values = [req.session.class_id, req.session.wx_id]; 
+			connection.query(sql.post_sign_up, values, function(err, ret){
+				try {
+					if (ret) {
+						res.json(success);
+					}	else {
+						res.json(failed); 
+					}
+					connection.release();
+				}
+				catch (err){
+					console.log(err);
+					res.json(failed);
+				}
+			}); 
+		} catch (err){
+			console.log(err);
+			res.json(failed);
+		}
+	})
+};
+
+exports.post_subject_list = function(req, res) {
+	try {
+		pool.getConnection(function(err, connection) {
+			try {
+				var values = [req.body.user_id]; 
+				connection.query(sql.GET_SUBJECT_LIST, values, function(err, ret){
+					try {
+						console.log(ret);
+						res.json(ret);
+						connection.release();
+					}
+					catch (err){
+						console.log(err);
+						res.json(failed);
+					}
+				}); 
+			} catch (err){
+				console.log(err);
+				res.json(failed);
+			}
+		})
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+exports.post_start_sign = function(req, res) {
+	try {
+		pool.getConnection(function(err, connection) {
+			try {
+				var myDate = new Date();
+				var create_time = myDate.toLocaleString();
+				var values = ["tt_class_id", "t_user_id", "t_subject_id", create_time]; 
+				connection.query(sql.CREATE_NEW_SIGN, values, function(err, ret){
+					try {
+						if (ret) {
+							res.json(success);
+						}
+						connection.release();
+					}
+					catch (err){
+						console.log(err);
+						res.json(failed);
+					}
+				}); 
+			} catch (err){
+				console.log(err);
+				res.json(failed);
+			}
+		})
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+exports.get_history_sign = function(req, res){
+	try {
+		pool.getConnection(function(err, connection) {
+			try {
+				var subject_id = req.body.subject_id; 
+				console.log(req.body);
+				var values = [subject_id]; 
+				connection.query(sql.GET_HISTORY_SIGN, values, function(err, ret){
+					try {
+						if (ret) {
+							res.json(ret);
+						}
+						connection.release();
+					}
+					catch (err){
+						console.log(err);
+						res.json(failed);
+					}
+				}); 
+			} catch (err){
+				console.log(err);
+				res.json(failed);
+			}
+		})
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+exports.get_sign_summery = function(req, res){
+	try {
+//		pool.getConnection(function(err, connection) {
+		//	try {
+				var sign = [{'name': '史宁', 'class': '计算机科学与技术', 'number': '07411058'}, 
+							  {'name': '王萌萌', 'class': '计算机科学与技术', 'number': '07411040'}];
+			    var unsign = [{'name': '韩明磊', 'class': '计算机科学与技术', 'number': '07411001'}]
+				var summery = {sign, unsign};
+				res.json(summery);
+				/*
+				var values = [user_id, subject_id]; 
+				connection.query(sql.GET_HISTORY_SIGN, values, function(err, ret){
+					try {
+						if (ret) {
+							res.json(ret);
+						}
+						connection.release();
+					}
+					catch (err){
+						console.log(err);
+						res.json(failed);
+					}
+				}); 
+			} catch (err){
+				console.log(err);
+				res.json(failed);
+			}*/
+//		})
+	} catch (err) {
+		console.log(err);
+	}
+};

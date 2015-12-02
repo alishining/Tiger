@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+		<link rel="stylesheet" href="../../css/bootstrap.min.css">
+		<link rel="stylesheet" href="../../css/style.css"> 
+		<title>考勤神器</title>
+	</head>
+	<body>
+		<div class="container creatKc">
+			<div class="header">
+				<span class="leftIco"></span>
+				<h4>创建课程</h4>
+			</div>
+			<div class="content">
+				<form>
+					<ul>
+						<li><label>学&#12288;&#12288;校</label><input type="text" id="school"></li>
+						<li><label>课程名称</label><input type="text" id="subject"></li>
+						<li><label>上课班级</label><input type="text" id="cls"></li>
+						<li class="btnLi"><button type="button" class="creatBtn btn btn-success" id="ctSubject">创建课程</button></li>
+					</ul>
+				</form>
+			</div>
+		</div>
+		<script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+		<script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script>
+			$("#ctSubject").click(function(){
+				var data = {
+					"school"   : $("#school").val(),
+					"subject"  : $("#subject").val(),
+					"cls"      : $("#cls").val()
+				};
+				$.ajax({
+					url : "post_subject_info",
+					type : "post",
+					data : data,
+					async: false,
+					success : function(res){
+						if (res.code == 0)
+							window.location.href="/subject_list";
+					},
+					error : function(res){
+						alert("failed");
+					}
+				});
+			});
+		</script>
+	</body>
+</html>

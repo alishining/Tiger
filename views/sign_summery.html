@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+		<link rel="stylesheet" href="../../css/bootstrap.min.css">
+		<link rel="stylesheet" href="../../css/style.css"> 
+		<script type="text/javascript" src="../../js/jquery.min.js" ></script>
+		<script type="text/javascript" src="../../js/touch.js" ></script>
+		<title>考勤神器</title>
+	</head>
+	<body>
+		<div class="container result">
+			<div class="header">
+				<span class="leftIco"></span>
+				<h4>2015-10-30周五 10:30:30</h4>
+			</div>
+			<div class="content">
+				<div class="title">
+					<img class="bookIco pull-left" src="../../img/book.png">
+					<span>《中国近代史纲要》</span>
+					<p>管理31/32、计算机31</p>
+					<a class="rightIco btn btn-success">补签到</a>
+				</div>
+				<div class="popNum">
+					<p>共计<span>52</span>人:<span>50</span>人出勤;<span>2</span>人缺勤。</p>
+				</div>
+				<div>
+					<ul>
+						<li class="duty">
+						<p class="listTitle">缺勤</p>
+						<div id="unsgin">
+							<div class="popList">
+								<img class="bookIco pull-left" src="../../img/book.png">
+								<p><span class="uName">李晓明</span><span class="tel">15922222222</span></p>
+								<p><span>班级:</span><span>外语31</span></p>
+								<a class="rightIco btn btn-success">补签到</a>
+							</div>
+							<div class="popList">
+								<img class="bookIco pull-left" src="../../img/book.png">
+								<p><span class="uName">李晓明</span><span class="tel">15922222222</span></p>
+								<p><span>班级:</span><span>外语31</span></p>
+								<a class="rightIco btn btn-success">补签到</a>
+							</div>
+							<div class="popList">
+								<img class="bookIco pull-left" src="../../img/book.png">
+								<p><span class="uName">李晓明</span><span class="tel">15922222222</span></p>
+								<p><span>班级:</span><span>外语31</span></p>
+								<a class="rightIco btn btn-success">补签到</a>
+							</div>
+						</div>
+
+						</li>
+						<li class="attendance">
+						<p class="listTitle">出勤</p>
+						<div id="sgin">
+							<div class="popList">
+								<img class="bookIco pull-left" src="../../img/book.png">
+								<p><span class="uName">李晓明</span><span class="tel">15922222222</span></p>
+								<p><span>班级:</span><span>外语31</span></p>
+								<img class="rightIco" src="../../img/ok.png"></img>
+							</div>
+						</div>
+
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script>
+		$(function(){
+			var data={
+				"user_id"   :   "test"
+			}
+			$.ajax({
+				url : "/get_sign_summery",
+				type : "post", 
+				data:data,
+				async : false, 
+				success : function(dataRes){ 
+					console.log("data",dataRes)
+					var signHtml='';
+					var unsignHtml='';
+					var sign = dataRes.sign;
+					var unsign = data.unsign;
+					for(var i=0;i<unsign.length;i++){
+						unsignHtml+='<div class="popList"><img class="bookIco pull-left" src="../../img/book.png">';
+							unsignHtml+='<p><span class="uName">'+unsign.name+'</span><span class="tel">'+unsign.number+'</span></p>';
+							unsignHtml+='<p><span>'+unsign.class+':</span><span>外语31</span></p>';
+							unsignHtml+='<a class="rightIco btn btn-success">补签到</a></div>'
+
+					}
+					$("#unsgin").html(html);
+					for(var j=0;j<sign.length;j++){
+						unsignHtml+='<div class="popList"><img class="bookIco pull-left" src="../../img/book.png">';
+							unsignHtml+='<p><span class="uName">'+sign.name+'</span><span class="tel">'+sign.number+'</span></p>';
+							unsignHtml+='<p><span>'+sign.class+':</span><span>外语31</span></p>';
+							unsignHtml+='<img class="rightIco" src="../../img/ok.png"></img></div>';
+					}
+					$("#sgin").html(html);
+				}
+
+			});
+		})
+
+	</script>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+		<link rel="stylesheet" href="../../css/bootstrap.min.css">
+		<link rel="stylesheet" href="../../css/style.css"> 
+		<script type="text/javascript" src="../../js/jquery.min.js" ></script>
+		<script type="text/javascript" src="../../js/touch.js" ></script>
+		<title>考勤神器</title>
+
+	</head>
+	<body>
+		<div class="container list">
+			<div class="header">
+				<h4>课程列表</h4>
+				<span id="creatClassList">+创建课程</span>
+			</div>
+			<div class="content">
+				<ul id="classList">
+					<!--<li>
+					<img class="bookIco pull-left" src="../../img/book.png">
+					<span>《中国近代史纲要》</span>
+					<p>管理31/32、计算机31</p>
+					<span class="rightIco"></span>
+					</li>
+					<li>
+					<img class="bookIco pull-left" src="../../img/book.png">
+					<span>《中国近代史纲要》</span>
+					<p>管理31/32、计算机31</p>
+					<span class="rightIco"></span>
+					</li>-->
+				</ul>
+			</div>
+		</div>
+		<script>
+			$(function(){
+				function subject_list(){
+					var data={
+						"user_id"   :   "test"   //TODO: user_id 从微信端获取
+					}
+					$.ajax({
+						url : "/post_subject_list",
+						type : "post", 
+						data:data,
+						async : false, 
+						success : function(dataRes){ 
+							var html='';
+							for(var i=0;i<dataRes.length;i++){
+								html+='<li><img class="bookIco pull-left" src="../../img/book.png">';
+								html+='<p hidden="hidden">' + dataRes[i].subject_id + '</p>';
+								html+='<span>《'+dataRes[i].subject+'》</span>';
+								html+='<p>'+dataRes[i].class+'</p><span class="rightIco"></span></li>';
+							}
+							$("#classList").html(html)
+						}
+					});
+				}	
+				subject_list();
+				//创建课程
+				touch.on("#creatClassList",'tap',function(){
+					window.location.href="/create_subject";
+				})
+				//开始点名
+				touch.on("#classList li",'tap',function(originEvent){
+					localStorage.subject_id = originEvent.srcElement.childNodes[1].innerHTML;
+					localStorage.subject = originEvent.srcElement.childNodes[2].innerHTML;
+					localStorage.cls = originEvent.srcElement.childNodes[3].innerHTML;
+					window.location.href="/start_sign";
+				})
+
+			})
+		</script>
+	</body>
+</html>
