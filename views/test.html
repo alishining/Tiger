@@ -65,24 +65,6 @@
 					}
 				});
 			});
-			$("#tSign").click(function(){
-				var data = {
-					"user_id"	:	"test"
-				};
-				$.ajax({
-					url : "post_subject_list",
-					type : "post",
-					data : data,
-					async: false,
-					success : function(res){
-						if (res.code == 0)
-							window.location.href = "/subject_list";
-					},
-					error : function(err){
-						console.log(err);
-					}
-				});
-			});
 
 		</script>
 	</body>

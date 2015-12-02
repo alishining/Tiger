@@ -24,20 +24,12 @@
 				</div>
 				<div class="body">
 					<ul id="history_list">
-						<!--<li>
-							<span>2015-10-30周五 10:30:30</span>
-							<span class="rightIco"></span>
-						</li>
-						<li>
-							<span>2015-10-30周五 10:30:30</span>
-							<span class="rightIco"></span>
-						</li>
-						-->
 					</ul>
 				</div>
 			</div>
 			<div class="footer">
-				<button type="button" class="starBtn btn btn-success">开始考勤</button>	
+				<button type="button" class="starBtn btn btn-success" id="start_sign">开始考勤</button>
+				<button type="button" class="starBtn btn btn-danger" id="over_sign" style="display:none">结束考勤</button>
 			</div>
 		</div>
 	</body>
@@ -59,5 +51,41 @@
 				$("#history_list").html(html)
 			}
 		});
+		touch.on("#start_sign",'tap',function(){
+			var _this = this;
+			$("#start_sign").hide();
+			$("#over_sign").show();
+
+			//开始考勤
+			var data = {
+				"subject_id" : localStorage.getItem("subject_id")
+			};
+			$.ajax({
+				url : "/post_start_sign",
+				data : data,
+				type : "post", 
+				success : function(dataRes){ 
+					localStorage.create_time = dataRes.msg.create_time;
+					localStorage.class_id = dataRes.msg.class_id;
+					var student_sign_data = {
+						"class_id" : dataRes.msg.class_id;
+						"subject_id" : localStorage.getItem("subject_id");
+						"subject" : localStorage.getItem("subject");
+						"cls" : localStorage.getItem("cls");
+					};
+					$.ajax({
+						url : "/welcome",
+						data : student_sign_data,
+						type : "post", 
+						success : function(dataRes){ 
+						}
+					});
+				}
+			});
+		});
+		touch.on("#over_sign",'tap',function(){
+			window.location.href="/sign_summery";
+		});
+
 	</script>
 </html>

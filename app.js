@@ -48,6 +48,7 @@ app.get('/start_sign', routes.start_sign);
 app.post('/get_history_sign', routes.get_history_sign);
 app.post('/get_sign_summery', routes.get_sign_summery);
 app.get('/sign_summery', routes.sign_summery);
+app.get('/welcome', routes.welcome);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
 	var err = new Error('Not Found');

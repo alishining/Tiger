@@ -156,10 +156,13 @@ exports.post_start_sign = function(req, res) {
 			try {
 				var myDate = new Date();
 				var create_time = myDate.toLocaleString();
-				var values = ["tt_class_id", "t_user_id", "t_subject_id", create_time]; 
+				var subject_id = req.body.subject_id;
+				var class_id = encrypt.md5(subject_id + create_time); 
+				var values = [class_id, subject_id, create_time]; 
 				connection.query(sql.CREATE_NEW_SIGN, values, function(err, ret){
 					try {
 						if (ret) {
+							success.msg = {"create_time" : create_time, "class_id": class_id};
 							res.json(success);
 						}
 						connection.release();
@@ -210,19 +213,20 @@ exports.get_history_sign = function(req, res){
 
 exports.get_sign_summery = function(req, res){
 	try {
-//		pool.getConnection(function(err, connection) {
-		//	try {
-				var sign = [{'name': '史宁', 'class': '计算机科学与技术', 'number': '07411058'}, 
-							  {'name': '王萌萌', 'class': '计算机科学与技术', 'number': '07411040'}];
-			    var unsign = [{'name': '韩明磊', 'class': '计算机科学与技术', 'number': '07411001'}]
-				var summery = {sign, unsign};
-				res.json(summery);
-				/*
-				var values = [user_id, subject_id]; 
-				connection.query(sql.GET_HISTORY_SIGN, values, function(err, ret){
+		pool.getConnection(function(err, connection) {
+			try {
+				var class_id = req.body.class_id;
+				var values = [class_id]; 
+				connection.query(sql.GET_UNSIGN_STUDENT, values, function(err, unsign_ret){
 					try {
-						if (ret) {
-							res.json(ret);
+						if (unsign_ret) {
+							connection.query(sql.GET_SIGN_STUDENT, values, function(err, sign_ret){
+								if (sign_ret) {
+									ret = {"sign" : sign_ret, "unsign" : unsign_ret};
+									//console.log(ret);
+									res.json(ret);
+								}
+							});
 						}
 						connection.release();
 					}
@@ -234,8 +238,8 @@ exports.get_sign_summery = function(req, res){
 			} catch (err){
 				console.log(err);
 				res.json(failed);
-			}*/
-//		})
+			}
+		})
 	} catch (err) {
 		console.log(err);
 	}

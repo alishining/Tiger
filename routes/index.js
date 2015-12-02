@@ -44,6 +44,7 @@ exports.subject_list = function(req, res){
 	res.render('subject_list');
 };
 exports.post_start_sign = function(req, res){
+	console.log('post_start_sign');
 	user_dao.post_start_sign(req, res);
 };
 exports.start_sign = function(req, res){
@@ -58,3 +59,6 @@ exports.get_sign_summery = function(req, res){
 exports.sign_summery = function(req, res){
 	res.render('sign_summery');
 };
+exports.welcome = function(req, res){
+	res.render('welcome');
+}
