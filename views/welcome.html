@@ -10,27 +10,89 @@
 	<body>
 		<div class="container stuFir" id="isSign">
 			<div id="isStartSign"> 
-			<div class="header">
-				<img class="bookIco pull-left" src="../../img/book.png">
-				<h4>《中国近代史纲要》</中国近代史纲要></h4>
-				<p>管理31/32、计算机31</p>
+				<div class="header">
+					<img class="bookIco pull-left" src="../../img/book.png">
+					<h4><script>document.write(localStorage.getItem("subject"))</script></h4>
+					<p><script>document.write(localStorage.getItem("cls"))</script></p>
+				</div>
+				<div class="tool" id="isFirstSign">
+					<p>首次绑定个人信息,绑定后<span>不可修改</span></p>
+				</div>
+				<div class="content" id="firstSignContent">
+					<form>
+						<ul>
+							<li><label>班级</label><input type="text" id="cls"></li>
+							<li><label>姓名</label><input type="text" id="name"></li>
+							<li><label>学号</label><input type="text" id="number"></li>
+							<!--<li class="btnLi"><button type="submit" class="btn btn-success">签到</button></li>-->
+						</ul>
+					</form>
+				</div>
+				<div class="btnLi"><button id="signSure" class="btn btn-success">签到</button></div>
 			</div>
-			<div class="tool" id="isFirstSign">
-				<p>首次绑定个人信息,绑定后<span>不可修改</span></p>
-			</div>
-			<div class="content" id="firstSignContent">
-				<form>
-					<ul>
-						<li><label>班级</label><input type="text"></li>
-						<li><label>姓名</label><input type="text"></li>
-						<li><label>学号</label><input type="text"></li>
-						<!--<li class="btnLi"><button type="submit" class="btn btn-success">签到</button></li>-->
-					</ul>
-				</form>
-			</div>
-			<div class="btnLi"><button id="signSure" class="btn btn-success">签到</button></div>
-			</div>
-	
+
 		</div>
+		<script type="text/javascript" src="../../js/jquery.min.js" ></script>
+		<script type="text/javascript" src="../../js/touch.js" ></script>
+		<script>
+			$.ajax({
+				url : "/welcome",
+				type : "post",
+				success : function(dataRes){
+					if (dataRes.length == 0) {
+						$("#isSign").hide();
+					} else {
+						$("#isSign").show();				
+						localStorage.subject = dataRes[0].subject;
+						localStorage.cls = dataRes[0].class;
+						localStorage.subject_id = dataRes[0].subject_id;
+						localStorage.class_id = dataRes[0].class_id;
+						$.ajax({
+							url: 'student_sign',
+							type : 'post',
+							success : function(res){
+								if (res.code == 0) { 
+									$("#firstSignContent").hide();
+									$("#isFirstSign").hide();
+									touch.on("#signSure",'tap',function(){
+										var data = {
+											"class_id"  : localStorage.getItem("class_id"),
+											"subject_id": localStorage.getItem("subject_id")
+
+										};
+										$.ajax({
+											url : "/post_sign_up",
+											type : "post",
+											data : data,
+											success : function(res){
+											}
+										});
+									}
+									} else {
+									touch.on("#signSure",'tap',function(){
+										var data = {
+											"number"    : $("#number").val(),
+											"name"      : $("#name").val(),
+											"cls"       : $("#cls").val(),
+											"class_id"  : localStorage.getItem("class_id"),
+											"subject_id": localStorage.getItem("subject_id")
+										};
+										$.ajax({
+											url : "post_student_info",
+											type : "post",
+											data : data,
+											success : function(res){
+											},
+											error : function(res){
+											}
+										});
+									})
+								}
+							}
+						});
+					}
+				}
+			});
+		</script>
 	</body>
 </html>

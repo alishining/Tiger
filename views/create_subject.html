@@ -39,11 +39,10 @@
 					data : data,
 					async: false,
 					success : function(res){
-						if (res.code == 0)
-							window.location.href="/subject_list";
+						window.location.href="/subject_list?user_id=" + res.msg;
 					},
 					error : function(res){
-						alert("failed");
+						window.location.href="/subject_list?user_id=" + res.msg;
 					}
 				});
 			});

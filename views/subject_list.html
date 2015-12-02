@@ -36,13 +36,9 @@
 		<script>
 			$(function(){
 				function subject_list(){
-					var data={
-						"user_id"   :   "test"   //TODO: user_id 从微信端获取
-					}
 					$.ajax({
 						url : "/post_subject_list",
 						type : "post", 
-						data:data,
 						async : false, 
 						success : function(dataRes){ 
 							var html='';

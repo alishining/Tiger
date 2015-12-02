@@ -48,7 +48,11 @@ app.get('/start_sign', routes.start_sign);
 app.post('/get_history_sign', routes.get_history_sign);
 app.post('/get_sign_summery', routes.get_sign_summery);
 app.get('/sign_summery', routes.sign_summery);
-app.get('/welcome', routes.welcome);
+app.post('/welcome', routes.welcome);
+app.post('/add_signing_status', routes.add_signing_status);
+app.post('/del_signing_status', routes.del_signing_status);
+app.post('/get_signing_status', routes.get_signing_status);
+app.get('/', routes.index);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
 	var err = new Error('Not Found');

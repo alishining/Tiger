@@ -25,19 +25,23 @@ exports.create_subject = function(req, res) {
 			connection.query(sql.CREATE_SUBJECT, values, function(err, ret){
 				try {
 					if (ret){
+						success.msg = user_id;
 						res.json(success);
 					} else {
+						failed.msg = user_id;
 						res.json(failed);
 					}
 					connection.release();
 				}
 				catch (err){
 					console.log(err);
+					failed.msg = user_id;
 					res.json(failed);
 				}
 			}); 
 		} catch (err){
 			console.log(err);
+			failed.msg = user_id;
 			res.json(failed);
 		}
 	})
@@ -76,15 +80,18 @@ exports.create_student = function(req, res) {
 exports.student_sign = function(req, res) {
 	pool.getConnection(function(err, connection) {
 		try {
-			req.session.wx_id = req.body.wx_id;
-			req.session.class_id = req.body.class_id;
-			req.session.subject = req.body.subject;
-			req.session.cls = req.body.cls;
-			var values = [req.body.wx_id]; 
+		//	req.session.wx_id = req.body.wx_id;
+		//	req.session.class_id = req.body.class_id;
+		//	req.session.subject = req.body.subject;
+		//	req.session.cls = req.body.cls;
+			//var values = [req.session.wx_id]; 
+			var values = ['shining'];
 			connection.query(sql.CHECK_STUDENT, values, function(err, ret){
 				try {
 					if (ret[0].wx_id != undefined){
 						res.json(success);
+					} else {
+						res.json(failed);
 					}
 					connection.release();
 				}
@@ -95,6 +102,7 @@ exports.student_sign = function(req, res) {
 			}); 
 		} catch (err){
 			console.log(err);
+			res.json(failed);
 		}
 	})
 };
@@ -102,7 +110,7 @@ exports.student_sign = function(req, res) {
 exports.post_sign_up = function(req, res) {
 	pool.getconnection(function(err, connection) {
 		try {
-			var values = [req.session.class_id, req.session.wx_id]; 
+			var values = [req.body.class_id, req.session.wx_id]; 
 			connection.query(sql.post_sign_up, values, function(err, ret){
 				try {
 					if (ret) {
@@ -128,7 +136,7 @@ exports.post_subject_list = function(req, res) {
 	try {
 		pool.getConnection(function(err, connection) {
 			try {
-				var values = [req.body.user_id]; 
+				var values = [req.session.user_id]; 
 				connection.query(sql.GET_SUBJECT_LIST, values, function(err, ret){
 					try {
 						console.log(ret);
@@ -244,3 +252,93 @@ exports.get_sign_summery = function(req, res){
 		console.log(err);
 	}
 };
+
+exports.add_signing_status = function(req, res){
+	try {
+		pool.getConnection(function(err, connection) {
+			try {
+				var user_id = req.session.user_id;
+				var subject_id = req.body.subject_id; 
+				var subject = req.body.subject;
+				var class_id = req.body.class_id;
+				var cls = req.body.cls
+				var values = [user_id, subject_id, subject, class_id, cls]; 
+				console.log(values);
+				connection.query(sql.ADD_SIGNING_STATUS, values, function(err, ret){
+					try {
+						if (ret) {
+							res.json(ret);
+						}
+						connection.release();
+					}
+					catch (err){
+						console.log(err);
+						res.json(failed);
+					}
+				}); 
+			} catch (err){
+				console.log(err);
+				res.json(failed);
+			}
+		})
+	} catch (err) {
+		console.log(err);
+	}
+
+};
+
+exports.del_signing_status = function(req, res){
+	try {
+		pool.getConnection(function(err, connection) {
+			try {
+				var user_id = req.session.user_id;
+				var values = [user_id]; 
+				connection.query(sql.DEL_SIGNING_STATUS, values, function(err, ret){
+					try {
+						if (ret) {
+							res.json(ret);
+						}
+						connection.release();
+					}
+					catch (err){
+						console.log(err);
+						res.json(failed);
+					}
+				}); 
+			} catch (err){
+				console.log(err);
+				res.json(failed);
+			}
+		})
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+exports.get_signing_status = function(req, res){
+	try {
+		pool.getConnection(function(err, connection) {
+			try {
+				var user_id = req.body.user_id;
+				var values = [user_id]; 
+				connection.query(sql.GET_SIGNING_STATUS, values, function(err, ret){
+					try {
+						if (ret) {
+							res.json(ret);
+						}
+						connection.release();
+					}
+					catch (err){
+						console.log(err);
+						res.json(failed);
+					}
+				}); 
+			} catch (err){
+				console.log(err);
+				res.json(failed);
+			}
+		})
+	} catch (err) {
+		console.log(err);
+	}
+}
