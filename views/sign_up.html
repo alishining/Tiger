@@ -14,16 +14,22 @@
 				<h4 id="subject"><%= subject %></h4>
 				<p id="cls"><%= cls %></p>
 			</div>
-			<div class="tool">
-			</div>
+			
 			<div class="content">
-				<p>微信号 <%= wx_id %></p>
-				<form>
+			 <div id="sgin_up">
+			 	<form>
 					<ul>
 						<li class="btnLi"><button type="button" id="sign" class="btn btn-success">签到</button></li>
+						
 					</ul>
 				</form>
+			 </div>
 			</div>
+			<div id="signSuccess" style="display:none">
+				<p id="ok"style="margin-top:50px;margin-left: 250px;"><img src="../../img/ok.png"></span>签到成功！</p>
+				<p style="margin-top:50px;margin-left: 250px;display:none"id="wrong"><img src="../../img/wrong.png"></span>签到失败！</p>
+			</div>
+			
 		</div>
 	</body>
 	<script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
@@ -31,16 +37,26 @@
 	<script>
 		$("#sign").click(function(){
 			$.ajax({
-				url : "post_sign_up",
+				url : "/post_sign_up",
 				type : "post",
 				success : function(res){
-					if (res.code == 0)
-					window.location.href = "/sign_ok";
-					else
-					alert("failed");
+					if (res.code == 0){
+					 $("#sgin_up").hide();
+					 $("#signSuccess").show();
+					}else{
+					 $("#sgin_up").hide();
+					 $("#signSuccess").show()
+					 $("#ok").hide();
+					 $("#wrong").show();
+					}
+					
+
 				},
 				error : function(res){
-					alert("failed");
+					$("#sgin_up").hide();
+					$("#signSuccess").show()
+					$("#ok").hide();
+					$("#wrong").show();
 				}
 			});
 		});

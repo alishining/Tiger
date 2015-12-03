@@ -40,7 +40,6 @@ app.post('/add_subject_student', routes.add_subject_student);
 app.post('/student_sign', routes.student_sign);
 app.get('/sign_up', routes.sign_up);
 app.post('/post_sign_up', routes.post_sign_up);
-app.get('/sign_ok', routes.sign_ok);
 app.get('/test', routes.test);
 app.get('/subject_list', routes.subject_list);
 app.post('/post_subject_list', routes.post_subject_list);

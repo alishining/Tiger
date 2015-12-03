@@ -34,9 +34,6 @@ exports.test = function(req, res){
 exports.post_sign_up = function(req, res){
 	user_dao.post_sign_up(req, res);
 };
-exports.sign_ok = function(req, res){
-	res.render("sign_ok", {subject : req.session.subject, cls : req.session.cls});
-};
 
 // 老师点击进入课程列表
 exports.post_subject_list = function(req, res){
