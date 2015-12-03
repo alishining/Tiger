@@ -105,12 +105,12 @@ exports.student_sign = function(req, res) {
 	})
 };
 
-exports.post_sign_up = function(req, res) {
+exports.post_sign_up = function(request, response) {
 	pool.getConnection(function(err, connection) {
 		try {
-			var class_id = req.body.class_id;
-			var subject_id = req.body.subject_id;
-			var wx_id = req.session.wx_id;
+			var class_id = request.body.class_id;
+			var subject_id = request.body.subject_id;
+			var wx_id = request.session.wx_id;
 			var values = [wx_id];
 			connection.query(sql.GET_STUDENT, values, function(err, ret){
 				try {
@@ -120,20 +120,26 @@ exports.post_sign_up = function(req, res) {
 					var values = [class_id, subject_id, wx_id, number, name, cls];
 					connection.query(sql.POST_SIGN_UP, values, function(err, ret){
 						try {
-							if (ret)
+							if (ret) {
 								console.log("POST SUCCESS");
+								console.log(ret);
+								response.json(success);
+							}
 							connection.release();
 						}
 						catch (err){
 							console.log(err);
+							response.json(failed);
 						}
 					}); 
 				} catch(err) {
 					console.log(err);
+					response.json(failed);
 				}
 			});
 		} catch (err){
 			console.log(err);
+			response.json(failed);
 		}
 	})
 };
@@ -150,16 +156,20 @@ exports.post_sign_up_first = function(req, res) {
 			var values = [class_id, subject_id, wx_id, number, name, cls];
 			connection.query(sql.POST_SIGN_UP, values, function(err, ret){
 				try {
-					if (ret)
+					if (ret){
 						console.log("POST SUCCESS");
+						res.json(success);
+					}
 					connection.release();
 				}
 				catch (err){
 					console.log(err);
+					res.json(failed);
 				}
 			}); 
 		} catch (err){
 			console.log(err);
+			res.json(failed);
 		}
 	})
 };

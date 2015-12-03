@@ -12,8 +12,8 @@
 			<div id="isStartSign"> 
 				<div class="header">
 					<img class="bookIco pull-left" src="../../img/book.png">
-					<h4><script>document.write(localStorage.getItem("subject"))</script></h4>
-					<p><script>document.write(localStorage.getItem("cls"))</script></p>
+					<h4 id="subject_txt"></h4>
+					<p id="cls_txt"></p>
 				</div>
 				<div class="tool" id="isFirstSign">
 					<p>首次绑定个人信息,绑定后<span>不可修改</span></p>
@@ -24,14 +24,18 @@
 							<li><label>班级</label><input type="text" id="cls"></li>
 							<li><label>姓名</label><input type="text" id="name"></li>
 							<li><label>学号</label><input type="text" id="number"></li>
-							<!--<li class="btnLi"><button type="submit" class="btn btn-success">签到</button></li>-->
 						</ul>
 					</form>
 				</div>
-				<div class="btnLi"><button id="signSure" class="btn btn-success">签到</button></div>
+				<div class="btnLi" id="sign_up"><button id="signSure" class="btn btn-success">签到</button></div>
+				<div id="signSuccess" style="display:none">
+					<p id="ok"style="margin-top:50px;margin-left: 150px;"><img src="../../img/ok.png"></span>签到成功！</p>
+					<p style="margin-top:50px;margin-left: 250px;display:none"id="wrong"><img src="../../img/wrong.png"></span>签到失败！</p>
+				</div>
 			</div>
-
-		</div>
+			<div id="noSign" style="display:none">
+				<p style="margin-top:50px;margin-left: 150px;"id="wrong"><img src="../../img/wrong.png"></span>考勤还没开始！</p>
+			</div>
 		<script type="text/javascript" src="../../js/jquery.min.js" ></script>
 		<script type="text/javascript" src="../../js/touch.js" ></script>
 		<script>
@@ -40,13 +44,15 @@
 				type : "post",
 				success : function(dataRes){
 					if (dataRes.length == 0) {
-						$("#isSign").hide();
+						$("#isStartSign").hide();
+						$("#noSign").show();
 						} else {
-						$("#isSign").show();				
 						localStorage.subject = dataRes[0].subject;
 						localStorage.cls = dataRes[0].class;
 						localStorage.subject_id = dataRes[0].subject_id;
 						localStorage.class_id = dataRes[0].class_id;
+						$("#subject_txt").html(dataRes[0].subject);
+						$("#cls_txt").html(dataRes[0].class);
 						$.ajax({
 							url: '/student_sign',
 							type : 'post',
@@ -64,6 +70,8 @@
 											type : "post",
 											data : data,
 											success : function(res){
+												$("#sign_up").hide();
+												$("#signSuccess").show(); 
 											}
 										});
 									})
@@ -81,6 +89,9 @@
 											type : "post",
 											data : data,
 											success : function(res){
+												$("#sign_up").hide();
+												$("#firstSignContent").hide();
+												$("#signSuccess").show(); 
 											},
 											error : function(res){
 											}
@@ -90,6 +101,9 @@
 											type : "post",
 											data : data,
 											success : function(res){
+												$("#sign_up").hide();
+												$("#firstSignContent").hide();
+												$("#signSuccess").show(); 
 											},
 											error : function(res){
 											}
@@ -99,6 +113,9 @@
 											type : "post",
 											data : data,
 											success : function(res){
+												$("#sign_up").hide();
+												$("#firstSignContent").hide();
+												$("#signSuccess").show(); 
 											},
 											error : function(res){
 											}
