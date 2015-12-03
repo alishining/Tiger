@@ -17,8 +17,8 @@ exports.create_student = function(req, res) {
 }
 exports.post_student_info = function(req, res) {
 	user_dao.create_student(req, res);
-	user_dao.post_sign_up(req, res);
-	user_dao.add_student_to_subject(req, res);
+	user_dao.post_sign_up_first(req, res);
+	user_dao.add_subject_student(req, res);
 };
 exports.student_sign = function(req, res){
 	user_dao.student_sign(req, res);
@@ -61,8 +61,7 @@ exports.sign_summery = function(req, res){
 	res.render('sign_summery');
 };
 exports.welcome = function(req, res){
-//	var ticket = req.query.ticket;
-	var ticket = "5c0320a2721facd10062258bb1b66581";
+	var ticket = req.query.ticket;
 	tools.get_shake_info(req, res, ticket);
 };
 exports.add_signing_status = function(req, res){

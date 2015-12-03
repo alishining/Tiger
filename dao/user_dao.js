@@ -57,7 +57,6 @@ exports.create_student = function(req, res) {
 			var values = [wx_id, number, name, cls];
 			connection.query(sql.CREATE_STUDENT, values, function(err, ret){
 				try {
-					console.log(sql.CREATE_STUDENT);
 					if (ret){
 						res.json(success);
 					} else {
@@ -80,12 +79,7 @@ exports.create_student = function(req, res) {
 exports.student_sign = function(req, res) {
 	pool.getConnection(function(err, connection) {
 		try {
-		//	req.session.wx_id = req.body.wx_id;
-		//	req.session.class_id = req.body.class_id;
-		//	req.session.subject = req.body.subject;
-		//	req.session.cls = req.body.cls;
-			//var values = [req.session.wx_id]; 
-			var values = ['shining'];
+			var values = [req.session.wx_id]; 
 			connection.query(sql.CHECK_STUDENT, values, function(err, ret){
 				try {
 					if (ret[0].wx_id != undefined){
@@ -110,24 +104,58 @@ exports.student_sign = function(req, res) {
 exports.post_sign_up = function(req, res) {
 	pool.getconnection(function(err, connection) {
 		try {
-			var values = [req.body.class_id, req.session.wx_id]; 
+			var class_id = req.body.class_id;
+			var subject_id = req.body.subject_id;
+			var wx_id = request.session.wx_id;
+			var values = [wx_id];
+			connection.query(sql.GET_STUDENT, values, function(err, ret){
+				try {
+					var number = ret[0].number;
+					var name = ret[0].name;
+					var cls = ret[0].cls;
+					var values = [class_id, subject_id, wx_id, number, name, cls];
+					connection.query(sql.post_sign_up, values, function(err, ret){
+						try {
+							if (ret)
+								console.log("POST SUCCESS");
+							connection.release();
+						}
+						catch (err){
+							console.log(err);
+						}
+					}); 
+				} catch(err) {
+					console.log(err);
+				}
+			});
+		} catch (err){
+			console.log(err);
+		}
+	})
+};
+
+exports.post_sign_up_first = function(req, res) {
+	pool.getconnection(function(err, connection) {
+		try {
+			var class_id = req.body.class_id;
+			var subject_id = req.body.subject_id;
+			var wx_id = request.session.wx_id;
+			var number = req.body.number;
+			var name = req.body.name;
+			var cls = req.body.cls;
+			var values = [class_id, subject_id, wx_id, number, name, cls];
 			connection.query(sql.post_sign_up, values, function(err, ret){
 				try {
-					if (ret) {
-						res.json(success);
-					}	else {
-						res.json(failed); 
-					}
+					if (ret)
+						console.log("POST SUCCESS");
 					connection.release();
 				}
 				catch (err){
 					console.log(err);
-					res.json(failed);
 				}
 			}); 
 		} catch (err){
 			console.log(err);
-			res.json(failed);
 		}
 	})
 };
@@ -262,20 +290,20 @@ exports.add_signing_status = function(req, res){
 				var subject = req.body.subject;
 				var class_id = req.body.class_id;
 				var cls = req.body.cls
-				var values = [user_id, subject_id, subject, class_id, cls]; 
-				console.log(values);
-				connection.query(sql.ADD_SIGNING_STATUS, values, function(err, ret){
-					try {
-						if (ret) {
-							res.json(ret);
-						}
-						connection.release();
-					}
-					catch (err){
-						console.log(err);
-						res.json(failed);
-					}
-				}); 
+			var values = [user_id, subject_id, subject, class_id, cls]; 
+		console.log(values);
+		connection.query(sql.ADD_SIGNING_STATUS, values, function(err, ret){
+			try {
+				if (ret) {
+					res.json(ret);
+				}
+				connection.release();
+			}
+			catch (err){
+				console.log(err);
+				res.json(failed);
+			}
+		}); 
 			} catch (err){
 				console.log(err);
 				res.json(failed);
@@ -336,6 +364,36 @@ exports.get_signing_status = function(req, res){
 			} catch (err){
 				console.log(err);
 				res.json(failed);
+			}
+		})
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+exports.add_subject_student = function(req, res){
+	try {
+		pool.getConnection(function(err, connection) {
+			try {
+				var subject_id = req.body.subject_id;
+				var wx_id = req.session.wx_id; 
+				var number = req.body.number;
+				var name = req.body.name;
+				var cls = req.body.cls
+				var values = [subject_id, wx_id, number, name, cls]; 
+				connection.query(sql.ADD_SUBJECT_STUDENT, values, function(err, ret){
+					try {
+						if (ret) {
+							console.log('SUCCESS ADD SUBJECT STUDENT');
+						}
+						connection.release();
+					}
+					catch (err){
+						console.log(err);
+					}
+				}); 
+			} catch (err){
+				console.log(err);
 			}
 		})
 	} catch (err) {

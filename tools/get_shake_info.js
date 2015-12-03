@@ -57,8 +57,7 @@ exports.get_shake_info = function(request, response, ticket){
 						pool.getConnection(function(err, connection) {
 							try {
 								var user_id = obj.data.beacon_info.uuid;
-								//var values = [user_id];
-								var values = ['shining'];
+								var values = [user_id];
 								connection.query(sql.GET_SIGNING_STATUS, values, function(err, ret){
 									try {
 										if (ret) {
