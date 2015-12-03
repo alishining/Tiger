@@ -17,11 +17,14 @@ exports.create_subject = function(req, res) {
 	pool.getConnection(function(err, connection) {
 		try {
 			var user_id = req.session.user_id;
+			console.log("user_id", user_id);
 			var school = req.body.school;
 			var subject = req.body.subject; 
 			var cls = req.body.cls;
 			var subject_id = encrypt.md5(school + subject + cls);
 			var values = [subject_id, user_id, school, subject, cls];
+			console.log(values);
+			console.log(sql.CREATE_SUBJECT);
 			connection.query(sql.CREATE_SUBJECT, values, function(err, ret){
 				try {
 					if (ret){
@@ -80,6 +83,7 @@ exports.student_sign = function(req, res) {
 	pool.getConnection(function(err, connection) {
 		try {
 			var values = [req.session.wx_id]; 
+			console.log("wx_id", values);
 			connection.query(sql.CHECK_STUDENT, values, function(err, ret){
 				try {
 					if (ret[0].wx_id != undefined){
@@ -102,19 +106,19 @@ exports.student_sign = function(req, res) {
 };
 
 exports.post_sign_up = function(req, res) {
-	pool.getconnection(function(err, connection) {
+	pool.getConnection(function(err, connection) {
 		try {
 			var class_id = req.body.class_id;
 			var subject_id = req.body.subject_id;
-			var wx_id = request.session.wx_id;
+			var wx_id = req.session.wx_id;
 			var values = [wx_id];
 			connection.query(sql.GET_STUDENT, values, function(err, ret){
 				try {
 					var number = ret[0].number;
 					var name = ret[0].name;
-					var cls = ret[0].cls;
+					var cls = ret[0].class;
 					var values = [class_id, subject_id, wx_id, number, name, cls];
-					connection.query(sql.post_sign_up, values, function(err, ret){
+					connection.query(sql.POST_SIGN_UP, values, function(err, ret){
 						try {
 							if (ret)
 								console.log("POST SUCCESS");
@@ -135,16 +139,16 @@ exports.post_sign_up = function(req, res) {
 };
 
 exports.post_sign_up_first = function(req, res) {
-	pool.getconnection(function(err, connection) {
+	pool.getConnection(function(err, connection) {
 		try {
 			var class_id = req.body.class_id;
 			var subject_id = req.body.subject_id;
-			var wx_id = request.session.wx_id;
+			var wx_id = req.session.wx_id;
 			var number = req.body.number;
 			var name = req.body.name;
 			var cls = req.body.cls;
 			var values = [class_id, subject_id, wx_id, number, name, cls];
-			connection.query(sql.post_sign_up, values, function(err, ret){
+			connection.query(sql.POST_SIGN_UP, values, function(err, ret){
 				try {
 					if (ret)
 						console.log("POST SUCCESS");

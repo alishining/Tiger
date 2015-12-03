@@ -12,7 +12,7 @@ var routes = require('./routes/index');
 var app = express();
 
 // view engine setup
-app.set('port', 3000);
+app.set('port', 80);
 app.set('views', path.join(__dirname, 'views'));
 app.engine('.html', ejs.__express);
 app.set('view engine', 'html');
@@ -34,8 +34,9 @@ app.use(session({
 
 app.get('/create_subject', routes.create_subject);
 app.post('/post_subject_info', routes.post_subject_info);
-app.get('/create_student', routes.create_student);
-app.post('/post_student_info', routes.post_student_info);
+app.post('/create_student', routes.create_student);
+app.post('/post_sign_up_first', routes.post_sign_up_first)
+app.post('/add_subject_student', routes.add_subject_student);
 app.post('/student_sign', routes.student_sign);
 app.get('/sign_up', routes.sign_up);
 app.post('/post_sign_up', routes.post_sign_up);

@@ -47,11 +47,15 @@ exports.get_shake_info = function(request, response, ticket){
 					obj = JSON.parse(chunks);
 
 					console.log(obj);
-
-					request.session.user_id = obj.data.beacon_info.uuid;
-					request.session.wx_id = obj.data.openid;
-					console.log(obj.data.beacon_info.uuid);
-					console.log(obj.data.openid);
+					
+					try {
+						request.session.user_id = obj.data.beacon_info.uuid;
+						request.session.wx_id = obj.data.openid;
+						console.log(obj.data.beacon_info.uuid);
+						console.log(obj.data.openid);
+					} catch (err) {
+						console.log(err);
+					}
 
 					try {
 						pool.getConnection(function(err, connection) {

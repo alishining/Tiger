@@ -48,7 +48,7 @@
 						localStorage.subject_id = dataRes[0].subject_id;
 						localStorage.class_id = dataRes[0].class_id;
 						$.ajax({
-							url: 'student_sign',
+							url: '/student_sign',
 							type : 'post',
 							success : function(res){
 								if (res.code == 0) { 
@@ -77,7 +77,25 @@
 											"subject_id": localStorage.getItem("subject_id")
 										};
 										$.ajax({
-											url : "/post_student_info",
+											url : "/create_student",
+											type : "post",
+											data : data,
+											success : function(res){
+											},
+											error : function(res){
+											}
+										});
+										$.ajax({
+											url : "/post_sign_up_first",
+											type : "post",
+											data : data,
+											success : function(res){
+											},
+											error : function(res){
+											}
+										});
+										$.ajax({
+											url : "/add_subject_student",
 											type : "post",
 											data : data,
 											success : function(res){

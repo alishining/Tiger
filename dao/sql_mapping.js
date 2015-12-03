@@ -14,8 +14,6 @@ var user = {
 	GET_SIGNING_STATUS: 'SELECT * FROM signing_list WHERE user_id=?',
 	GET_STUDENT: 'SELECT * FROM student_info WHERE wx_id=?',
 	ADD_SUBJECT_STUDENT : 'INSERT INTO subject_student(subject_id, wx_id, number, name, class) VALUES(?,?,?,?,?)'
-
-
 };
 
 module.exports = user;
