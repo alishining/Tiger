@@ -47,7 +47,8 @@
 	<script>
 		$(function(){
 			var data={
-				"class_id"   :  localStorage.getItem("class_id")
+				"class_id"   :  localStorage.getItem("class_id"),
+				"subject_id" :  localStorage.getItem("subject_id")
 			}
 			$.ajax({
 				url : "/get_sign_summery",

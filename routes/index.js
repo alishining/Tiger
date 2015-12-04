@@ -2,12 +2,7 @@ var express = require('express');
 var user_dao = require('../dao/user_dao');
 var tools = require('../tools/get_shake_info');
 
-exports.index = function(req, res) {
-	res.render('index', { title: 'Express' });
-};
-
 exports.create_subject = function(req, res) {
-	console.log("create_subject", req.session.user_id);
 	res.render('create_subject');
 };
 exports.post_subject_info = function(req, res) {
@@ -25,12 +20,6 @@ exports.add_subject_student = function(req, res) {
 exports.student_sign = function(req, res){
 	user_dao.student_sign(req, res);
 };
-exports.sign_up = function(req, res){
-	res.render('sign_up',{cls: req.session.cls, wx_id : req.session.wx_id, subject: req.session.subject});
-};
-exports.test = function(req, res){
-	res.render('test');
-};
 exports.post_sign_up = function(req, res){
 	user_dao.post_sign_up(req, res);
 };
@@ -40,8 +29,6 @@ exports.post_subject_list = function(req, res){
 	user_dao.post_subject_list(req, res);
 };
 exports.subject_list = function(req, res){
-//	req.session.user_id = req.query.user_id;  //uuid(user_id)通过微信绑定到老师端
-	req.session.user_id = "FDA50693-A4E2-4FB1-AFCF-C6EB07647825";
 	res.render('subject_list');
 };
 exports.post_start_sign = function(req, res){
@@ -59,8 +46,8 @@ exports.get_sign_summery = function(req, res){
 exports.sign_summery = function(req, res){
 	res.render('sign_summery');
 };
-exports.welcome = function(req, res){
-	tools.get_shake_info(req, res, req.session.ticket);
+exports.get_shake_info = function(req, res){
+	tools.get_shake_info(req, res);
 };
 exports.add_signing_status = function(req, res){
 	user_dao.add_signing_status(req, res);
@@ -72,6 +59,8 @@ exports.get_signing_status = function(req, res){
 	user_dao.get_signing_status(req, res);
 };
 exports.index = function(req, res){
-	req.session.ticket = req.query.ticket;
 	res.render('welcome');
-}
+};
+exports.post_resign = function(){
+	user_dao.post_resign(req, res);
+};

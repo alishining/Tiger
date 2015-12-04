@@ -8,7 +8,8 @@ var user = {
 	CREATE_NEW_SIGN : 'INSERT INTO class_list(class_id, subject_id, create_time) VALUES(?,?,?)',
 	GET_HISTORY_SIGN : 'SELECT * FROM class_list WHERE subject_id=? ORDER BY create_time DESC',
 	GET_SIGN_STUDENT : 'SELECT number,name,class FROM student_sign WHERE class_id=?',
-	GET_UNSIGN_STUDENT : 'SELECT a.number, a.name, a.class FROM subject_student a left outer join student_sign b on a.subject_id = b.subject_id and a.wx_id = b.wx_id and b.class_id = ? WHERE b.wx_id is null',
+	GET_UNSIGN_STUDENT : 'select b.number, b.name, b.class from (select a.wx_id from (select wx_id from subject_student where subject_id = ? group by wx_id) a left outer join (select wx_id from student_sign where class_id = ? group by wx_id) b on a.wx_id = b.wx_id where b.wx_id is null) a left outer join student_info b on a.wx_id = b.wx_id where b.wx_id is not null',
+
 	ADD_SIGNING_STATUS : 'INSERT INTO signing_list(user_id, subject_id, subject, class_id, class) VALUES(?,?,?,?,?)',
 	DEL_SIGNING_STATUS: 'DELETE FROM signing_list WHERE user_id=?',
 	GET_SIGNING_STATUS: 'SELECT * FROM signing_list WHERE user_id=?',

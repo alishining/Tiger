@@ -16,15 +16,12 @@ var success = {
 exports.create_subject = function(req, res) {
 	pool.getConnection(function(err, connection) {
 		try {
-			var user_id = req.session.user_id;
-			console.log("user_id", user_id);
+			var user_id = req.body.user_id;
 			var school = req.body.school;
 			var subject = req.body.subject; 
 			var cls = req.body.cls;
 			var subject_id = encrypt.md5(school + subject + cls);
 			var values = [subject_id, user_id, school, subject, cls];
-			console.log(values);
-			console.log(sql.CREATE_SUBJECT);
 			connection.query(sql.CREATE_SUBJECT, values, function(err, ret){
 				try {
 					if (ret){
@@ -53,7 +50,7 @@ exports.create_subject = function(req, res) {
 exports.create_student = function(req, res) {
 	pool.getConnection(function(err, connection) {
 		try {
-			var wx_id = req.session.wx_id;
+			var wx_id = req.body.wx_id;
 			var number = req.body.number;
 			var name = req.body.name;
 			var cls = req.body.cls; 
@@ -82,7 +79,7 @@ exports.create_student = function(req, res) {
 exports.student_sign = function(req, res) {
 	pool.getConnection(function(err, connection) {
 		try {
-			var values = [req.session.wx_id]; 
+			var values = [req.body.wx_id]; 
 			console.log("wx_id", values);
 			connection.query(sql.CHECK_STUDENT, values, function(err, ret){
 				try {
@@ -110,7 +107,7 @@ exports.post_sign_up = function(request, response) {
 		try {
 			var class_id = request.body.class_id;
 			var subject_id = request.body.subject_id;
-			var wx_id = request.session.wx_id;
+			var wx_id = request.body.wx_id;
 			var values = [wx_id];
 			connection.query(sql.GET_STUDENT, values, function(err, ret){
 				try {
@@ -122,7 +119,6 @@ exports.post_sign_up = function(request, response) {
 						try {
 							if (ret) {
 								console.log("POST SUCCESS");
-								console.log(ret);
 								response.json(success);
 							}
 							connection.release();
@@ -149,7 +145,7 @@ exports.post_sign_up_first = function(req, res) {
 		try {
 			var class_id = req.body.class_id;
 			var subject_id = req.body.subject_id;
-			var wx_id = req.session.wx_id;
+			var wx_id = req.body.wx_id;
 			var number = req.body.number;
 			var name = req.body.name;
 			var cls = req.body.cls;
@@ -178,7 +174,7 @@ exports.post_subject_list = function(req, res) {
 	try {
 		pool.getConnection(function(err, connection) {
 			try {
-				var values = [req.session.user_id]; 
+				var values = [req.body.user_id]; 
 				connection.query(sql.GET_SUBJECT_LIST, values, function(err, ret){
 					try {
 						console.log(ret);
@@ -265,15 +261,17 @@ exports.get_sign_summery = function(req, res){
 	try {
 		pool.getConnection(function(err, connection) {
 			try {
+				var subject_id = req.body.subject_id;
 				var class_id = req.body.class_id;
-				var values = [class_id]; 
+				var values = [subject_id, class_id]; 
 				connection.query(sql.GET_UNSIGN_STUDENT, values, function(err, unsign_ret){
 					try {
 						if (unsign_ret) {
+							values = [class_id];
 							connection.query(sql.GET_SIGN_STUDENT, values, function(err, sign_ret){
 								if (sign_ret) {
 									ret = {"sign" : sign_ret, "unsign" : unsign_ret};
-									//console.log(ret);
+									console.log(ret);
 									res.json(ret);
 								}
 							});
@@ -299,25 +297,23 @@ exports.add_signing_status = function(req, res){
 	try {
 		pool.getConnection(function(err, connection) {
 			try {
-				var user_id = req.session.user_id;
+				var user_id = req.body.user_id;
 				var subject_id = req.body.subject_id; 
 				var subject = req.body.subject;
 				var class_id = req.body.class_id;
 				var cls = req.body.cls
-			var values = [user_id, subject_id, subject, class_id, cls]; 
-		console.log(values);
-		connection.query(sql.ADD_SIGNING_STATUS, values, function(err, ret){
-			try {
-				if (ret) {
-					res.json(ret);
-				}
-				connection.release();
-			}
-			catch (err){
-				console.log(err);
-				res.json(failed);
-			}
-		}); 
+				var values = [user_id, subject_id, subject, class_id, cls]; 
+				connection.query(sql.ADD_SIGNING_STATUS, values, function(err, ret){
+					try {
+						if (ret) {
+							res.json(ret);
+						}
+						connection.release();
+					} catch (err){
+						console.log(err);
+						res.json(failed);
+					}
+				}); 
 			} catch (err){
 				console.log(err);
 				res.json(failed);
@@ -326,14 +322,13 @@ exports.add_signing_status = function(req, res){
 	} catch (err) {
 		console.log(err);
 	}
-
 };
 
 exports.del_signing_status = function(req, res){
 	try {
 		pool.getConnection(function(err, connection) {
 			try {
-				var user_id = req.session.user_id;
+				var user_id = req.body.user_id;
 				var values = [user_id]; 
 				connection.query(sql.DEL_SIGNING_STATUS, values, function(err, ret){
 					try {
@@ -390,7 +385,7 @@ exports.add_subject_student = function(req, res){
 		pool.getConnection(function(err, connection) {
 			try {
 				var subject_id = req.body.subject_id;
-				var wx_id = req.session.wx_id; 
+				var wx_id = req.body.wx_id; 
 				var number = req.body.number;
 				var name = req.body.name;
 				var cls = req.body.cls
@@ -412,5 +407,40 @@ exports.add_subject_student = function(req, res){
 		})
 	} catch (err) {
 		console.log(err);
+	}
+};
+
+exports.post_resign = function(req, res){
+	try {
+		pool.getConnection(function(err, connection) {
+			try {
+				var class_id = req.body.class_id;
+				var subject_id = req.body.subject_id;
+				var wx_id = req.session.wx_id; 
+				var number = req.body.number;
+				var name = req.body.name;
+				var cls = req.body.cls
+				var values = [class_id, subject_id, wx_id, number, name, cls]; 
+				connection.query(sql.POST_SIGN_UP, values, function(err, ret){
+				try {
+					if (ret) {
+						console.log('SUCCESS RESIGN');
+						res.json(success);
+					}	
+					connection.release();
+				}
+				catch (err){
+					console.log(err);
+					res.json(failed);
+				}
+				}); 
+			} catch (err){
+				console.log(err);
+				res.json(failed);
+			}
+		})
+	} catch (err) {
+		console.log(err);
+		res.json(failed);
 	}
 }

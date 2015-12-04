@@ -156,7 +156,7 @@
 			$("#over_sign").show();
 
 			//开始考勤
-			var data = {
+			data = {
 				"subject_id" : localStorage.getItem("subject_id")
 			};
 			$.ajax({
@@ -167,6 +167,7 @@
 					localStorage.create_time = dataRes.msg.create_time;
 					localStorage.class_id = dataRes.msg.class_id;
 					var student_sign_data = {
+						"user_id" : localStorage.getItem("user_id"),
 						"class_id" : dataRes.msg.class_id,
 						"subject_id" : localStorage.getItem("subject_id"),
 						"subject" : localStorage.getItem("subject"),
@@ -183,9 +184,13 @@
 			});
 		});
 		touch.on("#over_sign",'tap',function(){
+			data = {
+				"user_id" : localStorage.getItem("user_id")
+			};
 			$.ajax({
 				url : "/del_signing_status",
 				type : "post", 
+				data : data,
 				success : function(dataRes){ 
 					window.location.href="/sign_summery";
 				}

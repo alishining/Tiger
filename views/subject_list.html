@@ -11,35 +11,53 @@
 
 	</head>
 	<body>
-		<div class="container list">
+		<div id="subject_list" class="container list" style="display: none;">
 			<div class="header">
 				<h4>课程列表</h4>
 				<span id="creatClassList">+创建课程</span>
 			</div>
 			<div class="content">
 				<ul id="classList">
-					<!--<li>
-					<img class="bookIco pull-left" src="../../img/book.png">
-					<span>《中国近代史纲要》</span>
-					<p>管理31/32、计算机31</p>
-					<span class="rightIco"></span>
-					</li>
-					<li>
-					<img class="bookIco pull-left" src="../../img/book.png">
-					<span>《中国近代史纲要》</span>
-					<p>管理31/32、计算机31</p>
-					<span class="rightIco"></span>
-					</li>-->
 				</ul>
 			</div>
 		</div>
+		<div id="uuIdInfo" class="container buqiandao" style="display: none;">
+			<div class="header">
+				<span class="leftIco"></span>
+				<h4>完善信息</h4>
+			</div>
+			<div class="content">
+				<form>
+					<ul>
+						<li><label>uuid：</label><input type="text" id="input_uuid"></li>
+						<li class="btnLi"><button id="sure" class="btn btn-success">确定</button></li>
+					</ul>
+				</form>
+			</div>
+		</div>
+		
 		<script>
 			$(function(){
+				
 				function subject_list(){
+					data = {
+						"user_id" : localStorage.getItem("user_id")
+				    };
+			        $.ajax({
+					    url : "/del_signing_status",
+					    type : "post", 
+					    data : data,
+						success : function(){
+						}
+				    });
+					$("#subject_list").show();
+					var data = {
+						"user_id" : localStorage.getItem('user_id')
+					};
 					$.ajax({
 						url : "/post_subject_list",
 						type : "post", 
-						async : false, 
+						data : data,
 						success : function(dataRes){ 
 							var html='';
 							for(var i=0;i<dataRes.length;i++){
@@ -49,22 +67,36 @@
 								html+='<p>'+dataRes[i].class+'</p><span class="rightIco"></span></li>';
 							}
 							$("#classList").html(html)
+							touch.on("#classList li",'tap',function(originEvent){
+								localStorage.subject_id = originEvent.srcElement.childNodes[1].innerHTML;
+								localStorage.subject = originEvent.srcElement.childNodes[2].innerHTML;
+								localStorage.cls = originEvent.srcElement.childNodes[3].innerHTML;
+								window.location.href="/start_sign";
+							})
 						}
 					});
 				}	
-				subject_list();
+				if(!localStorage.getItem("user_id")){
+					$("#uuIdInfo").show();
+					touch.on("#sure","tap",function(){
+						if($("#input_uuid").val()==''||$("#input_uuid").val()==undefined){
+							alert("请输入uuid")
+						}else{
+						localStorage.setItem("user_id",$("#input_uuid").val());
+						//alert($("#input_uuid").val())
+						$("#uuIdInfo").hide();
+						$("#subject_list").show();
+						}
+						
+					})
+				}else{
+					subject_list();
+				}
+				
 				//创建课程
 				touch.on("#creatClassList",'tap',function(){
 					window.location.href="/create_subject";
 				})
-				//开始点名
-				touch.on("#classList li",'tap',function(originEvent){
-					localStorage.subject_id = originEvent.srcElement.childNodes[1].innerHTML;
-					localStorage.subject = originEvent.srcElement.childNodes[2].innerHTML;
-					localStorage.cls = originEvent.srcElement.childNodes[3].innerHTML;
-					window.location.href="/start_sign";
-				})
-
 			})
 		</script>
 	</body>

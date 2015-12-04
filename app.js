@@ -1,5 +1,4 @@
 var express = require('express');
-var session = require('express-session');
 var http = require('http');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -25,22 +24,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session({
-	secret : 'kaoqin',
-	resave : false,
-	saveUninitialized: false,
-	cookie : {maxAge: 800000}
-}));
-
 app.get('/create_subject', routes.create_subject);
 app.post('/post_subject_info', routes.post_subject_info);
 app.post('/create_student', routes.create_student);
 app.post('/post_sign_up_first', routes.post_sign_up_first)
 app.post('/add_subject_student', routes.add_subject_student);
 app.post('/student_sign', routes.student_sign);
-app.get('/sign_up', routes.sign_up);
 app.post('/post_sign_up', routes.post_sign_up);
-app.get('/test', routes.test);
 app.get('/subject_list', routes.subject_list);
 app.post('/post_subject_list', routes.post_subject_list);
 app.post('/post_start_sign', routes.post_start_sign);
@@ -48,10 +38,11 @@ app.get('/start_sign', routes.start_sign);
 app.post('/get_history_sign', routes.get_history_sign);
 app.post('/get_sign_summery', routes.get_sign_summery);
 app.get('/sign_summery', routes.sign_summery);
-app.post('/welcome', routes.welcome);
 app.post('/add_signing_status', routes.add_signing_status);
 app.post('/del_signing_status', routes.del_signing_status);
 app.post('/get_signing_status', routes.get_signing_status);
+app.post('/post_resign', routes.post_resign);
+app.post('/get_shake_info', routes.get_shake_info);
 app.get('/', routes.index);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -85,7 +76,12 @@ app.use(function(err, req, res, next) {
 });
 
 var server = http.createServer(app);
-server.timeout = 0;
-server.listen(app.get('port'), function(){
-	console.log('Express server listening on port ' + app.get('port'));
-});
+try {
+	server.listen(app.get('port'), function(){
+		console.log('Express server listening on port ' + app.get('port'));
+	}).on('error', function(err){
+		console.log("SERVER ERROR:", err);
+	});;
+} catch (err){
+	console.log(err);
+}

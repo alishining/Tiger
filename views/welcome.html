@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<div class="container stuFir" id="isSign">
-			<div id="isStartSign"> 
+			<div id="isStartSign" style="display:none"> 
 				<div class="header">
 					<img class="bookIco pull-left" src="../../img/book.png">
 					<h4 id="subject_txt"></h4>
@@ -40,29 +40,43 @@
 		<script type="text/javascript" src="../../js/jquery.min.js" ></script>
 		<script type="text/javascript" src="../../js/touch.js" ></script>
 		<script>
+			var url = location.href;
+			var ticket = url.substring(url.indexOf("?")+1,url.length).split("&")[0].split("=")[1];
+			var data = {
+				ticket : ticket 
+			};
 			$.ajax({
-				url : "/welcome",
+				url : "/get_shake_info",
+				data : data,
 				type : "post",
 				success : function(dataRes){
 					if (dataRes.length == 0) {
-						$("#isStartSign").hide();
 						$("#noSign").show();
 						} else {
-						localStorage.subject = dataRes[0].subject;
-						localStorage.cls = dataRes[0].class;
-						localStorage.subject_id = dataRes[0].subject_id;
-						localStorage.class_id = dataRes[0].class_id;
+						$("#isStartSign").show();
+						localStorage.setItem("wx_id", dataRes[0].wx_id);
+						localStorage.setItem("user_id", dataRes[0].user_id);
+						localStorage.setItem("subject", dataRes[0].subject);
+						localStorage.setItem("cls", dataRes[0].class);
+						localStorage.setItem("subject_id", dataRes[0].subject_id);
+						localStorage.setItem("class_id", dataRes[0].class_id);
 						$("#subject_txt").html(dataRes[0].subject);
 						$("#cls_txt").html(dataRes[0].class);
+
+						var data = {
+							"wx_id": localStorage.getItem("wx_id")
+						};
 						$.ajax({
 							url: '/student_sign',
 							type : 'post',
+							data : data,
 							success : function(res){
 								if (res.code == 0) { 
 									$("#firstSignContent").hide();
 									$("#isFirstSign").hide();
 									touch.on("#signSure",'tap',function(){
-										var data = {
+										data = {
+											"wx_id": localStorage.getItem("wx_id"),
 											"class_id"  : localStorage.getItem("class_id"),
 											"subject_id": localStorage.getItem("subject_id")
 										};
@@ -78,10 +92,11 @@
 									})
 									}else {
 									touch.on("#signSure",'tap',function(){
-										var data = {
+										data = {
 											"number"    : $("#number").val(),
 											"name"      : $("#name").val(),
 											"cls"       : $("#cls").val(),
+											"wx_id":	  localStorage.getItem("wx_id"),
 											"class_id"  : localStorage.getItem("class_id"),
 											"subject_id": localStorage.getItem("subject_id")
 										};

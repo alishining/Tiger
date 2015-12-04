@@ -31,17 +31,18 @@
 				var data = {
 					"school"   : $("#school").val(),
 					"subject"  : $("#subject").val(),
-					"cls"      : $("#cls").val()
+					"cls"      : $("#cls").val(),
+					"user_id"  : localStorage.getItem("user_id")
 				};
 				$.ajax({
-					url : "post_subject_info",
+					url : "/post_subject_info",
 					type : "post",
 					data : data,
 					success : function(res){
-						window.location.href="/subject_list?user_id=" + res.msg;
+						window.location.href="/subject_list";
 					},
 					error : function(res){
-						window.location.href="/subject_list?user_id=" + res.msg;
+						window.location.href="/subject_list";
 					}
 				});
 			});

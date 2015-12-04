@@ -13,7 +13,7 @@ var success = {
 	code : 0
 }
 
-exports.get_shake_info = function(request, response, ticket){
+exports.get_shake_info = function(request, response){
 	var options =
 	{
 		hostname : 'api.weixin.qq.com',
@@ -36,7 +36,7 @@ exports.get_shake_info = function(request, response, ticket){
 			path : '/shakearound/user/getshakeinfo?access_token=' + obj.access_token,
 			};
 			var data = {
-				"ticket" : ticket 
+				"ticket" : request.body.ticket
 			};
 			data = JSON.stringify(data);
 			var req = http.request(opt, function(res){
@@ -46,17 +46,6 @@ exports.get_shake_info = function(request, response, ticket){
 				}).on('end', function() {
 					obj = JSON.parse(chunks);
 
-					console.log(obj);
-					
-					try {
-						request.session.user_id = obj.data.beacon_info.uuid;
-						request.session.wx_id = obj.data.openid;
-						console.log(obj.data.beacon_info.uuid);
-						console.log(obj.data.openid);
-					} catch (err) {
-						console.log(err);
-					}
-
 					try {
 						pool.getConnection(function(err, connection) {
 							try {
@@ -65,7 +54,8 @@ exports.get_shake_info = function(request, response, ticket){
 								connection.query(sql.GET_SIGNING_STATUS, values, function(err, ret){
 									try {
 										if (ret) {
-											console.log(ret);
+											ret[0].wx_id = obj.data.openid;
+											console.log("SHARK RET:", ret);
 											response.json(ret);
 										}
 										connection.release();
