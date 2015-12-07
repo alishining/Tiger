@@ -29,99 +29,6 @@
 
 				<div class="body" id="listBox" >
 					<ul id="history_list" >
-						<li>
-							<span>2015-10-30周五 10:30:30</span>
-							<span class="rightIco"></span>
-						</li>
-						<li>
-							<span>2015-10-30周五 10:30:30</span>
-							<span class="rightIco"></span>
-						</li>
-						<li>
-							<span>2015-10-30周五 10:30:30</span>
-							<span class="rightIco"></span>
-						</li>
-						<li>
-							<span>2015-10-30周五 10:30:30</span>
-							<span class="rightIco"></span>
-						</li><li>
-							<span>2015-10-30周五 10:30:30</span>
-							<span class="rightIco"></span>
-						</li>
-						<li>
-							<span>2015-10-30周五 10:30:30</span>
-							<span class="rightIco"></span>
-						</li><li>
-							<span>2015-10-30周五 10:30:30</span>
-							<span class="rightIco"></span>
-						</li>
-						<li>
-							<span>2015-10-30周五 10:30:30</span>
-							<span class="rightIco"></span>
-						</li><li>
-							<span>2015-10-30周五 10:30:30</span>
-							<span class="rightIco"></span>
-						</li>
-						<li>
-							<span>2015-10-30周五 10:30:30</span>
-							<span class="rightIco"></span>
-						</li><li>
-							<span>2015-10-30周五 10:30:30</span>
-							<span class="rightIco"></span>
-						</li>
-						<li>
-							<span>2015-10-30周五 10:30:30</span>
-							<span class="rightIco"></span>
-						</li><li>
-							<span>2015-10-30周五 10:30:30</span>
-							<span class="rightIco"></span>
-						</li>
-						<li>
-							<span>2015-10-30周五 10:30:30</span>
-							<span class="rightIco"></span>
-						</li><li>
-							<span>2015-10-30周五 10:30:30</span>
-							<span class="rightIco"></span>
-						</li>
-						<li>
-							<span>2015-10-30周五 10:30:30</span>
-							<span class="rightIco"></span>
-						</li><li>
-							<span>2015-10-30周五 10:30:30</span>
-							<span class="rightIco"></span>
-						</li>
-						<li>
-							<span>2015-10-30周五 10:30:30</span>
-							<span class="rightIco"></span>
-						</li><li>
-							<span>2015-10-30周五 10:30:30</span>
-							<span class="rightIco"></span>
-						</li>
-						<li>
-							<span>2015-10-30周五 10:30:30</span>
-							<span class="rightIco"></span>
-						</li><li>
-							<span>2015-10-30周五 10:30:30</span>
-							<span class="rightIco"></span>
-						</li>
-						<li>
-							<span>2015-10-30周五 10:30:30</span>
-							<span class="rightIco"></span>
-						</li><li>
-							<span>2015-10-30周五 10:30:30</span>
-							<span class="rightIco"></span>
-						</li>
-						<li>
-							<span>2015-10-30周五 10:30:30</span>
-							<span class="rightIco"></span>
-						</li><li>
-							<span>2015-10-30周五 10:30:30</span>
-							<span class="rightIco"></span>
-						</li>
-						<li>
-							<span>2015-10-30周五 10:30:30</span>
-							<span class="rightIco"></span>
-						</li>
 						
 					</ul>
 				</div>
@@ -145,9 +52,15 @@
 				console.log(dataRes)
 				var html='';
 				for(var i=0;i<dataRes.length;i++){
-					html+='<li><span>'+dataRes[i].create_time+'<span class="rightIco"></span></span></li>'
+					html+='<li><span>'+dataRes[i].create_time+'<span class="rightIco"></span></span></li>';
+					html+='<p hidden="hidden">' + dataRes[i].class_id + '</p>';
 				}
 				$("#history_list").html(html)
+				touch.on("#history_list li",'tap',function(originEvent){
+					localStorage.create_time = originEvent.srcElement.childNodes[1].innerHTML;
+					localStorage.class_id = originEvent.srcElement.childNodes[2].innerHTML;
+					window.location.href="/sign_summery";
+				})
 			}
 		});
 		touch.on("#start_sign",'tap',function(){
