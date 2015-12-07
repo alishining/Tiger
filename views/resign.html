@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+		<link rel="stylesheet" href="../public/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../public/css/style.css"> 
+			<script type="text/javascript" src="../public/js/jquery.min.js" ></script>
+		<script type="text/javascript" src="../public/js/touch.js" ></script>
+		<title>考勤神器</title>
+	</head>
+	<body>
+		<div class="container buqiandao">
+			<div class="header">
+				<span class="leftIco"></span>
+				<h4>2015-10-30周五 10:30:30</h4>
+			</div>
+			<div class="content">
+				<form>
+					<ul>
+						<li id="number"><label>学号</label><input type="text"  onkeyup="value=value.replace(/[^\d]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"></li>
+						<li id="stuClass"><label>班级</label><input type="text"></li>
+						<li id="name"><label>姓名</label><input type="text"></li>
+						<li class="btnLi"><button id="reSgin" class="btn btn-success">确定</button></li>
+					</ul>
+				</form>
+			</div>
+		</div>
+	</body>
+	<script>
+		$(function(){
+			
+			touch.on("#reSgin","tap",function(){
+				var num = $("#number").val();
+			    var stuClass = $("#nstuClassumber").val();
+			    var name = $("#name").val();
+			    if(num=="" || stuClass=="" || name==""){
+				   alert("请正确输入学号，班级，姓名");
+			   }else{
+			   	//进行ajax请求，进行数据传递和页面跳转
+			   }
+			})
+			
+		})
+	</script>
+</html>
