@@ -270,9 +270,13 @@ exports.get_sign_summery = function(req, res){
 							values = [class_id];
 							connection.query(sql.GET_SIGN_STUDENT, values, function(err, sign_ret){
 								if (sign_ret) {
-									ret = {"sign" : sign_ret, "unsign" : unsign_ret};
-									console.log(ret);
-									res.json(ret);
+									connection.query(sql.GET_TMP_SIGN, values, function(err, tmp_ret){
+										if (tmp_ret) { 
+											ret = {"sign" : sign_ret, "unsign" : unsign_ret, "tmp": tmp_ret};
+											console.log(ret);
+											res.json(ret);
+										}
+									})
 								}
 							});
 						}
@@ -410,18 +414,16 @@ exports.add_subject_student = function(req, res){
 	}
 };
 
-exports.post_resign = function(req, res){
+exports.post_tmp_sign = function(req, res){
 	try {
 		pool.getConnection(function(err, connection) {
 			try {
 				var class_id = req.body.class_id;
-				var subject_id = req.body.subject_id;
-				var wx_id = req.session.wx_id; 
 				var number = req.body.number;
 				var name = req.body.name;
 				var cls = req.body.cls
-				var values = [class_id, subject_id, wx_id, number, name, cls]; 
-				connection.query(sql.POST_SIGN_UP, values, function(err, ret){
+				var values = [class_id, number, name, cls]; 
+				connection.query(sql.POST_TMP_SIGN, values, function(err, ret){
 				try {
 					if (ret) {
 						console.log('SUCCESS RESIGN');

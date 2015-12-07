@@ -20,7 +20,7 @@
 					<img class="bookIco pull-left" src="../../img/book.png">
 					<span><script>document.write(localStorage.getItem("subject"))</script></span>
 					<p><script>document.write(localStorage.getItem("cls"))</script></p>
-					<a class="rightIco btn btn-success">补签到</a>
+					<a class="rightIco btn btn-success" id="resign">补签到</a>
 				</div>
 				<div class="popNum">
 					<p>共计<span id="allPerson"></span>人:<span id="signPerson"></span>人出勤;<span id="unsignPerson">2</span>人缺勤。</p>
@@ -45,6 +45,9 @@
 		</div>
 	</body>
 	<script>
+		$("#resign").click(function(){
+			window.location.href="/resign";
+		});
 		$(function(){
 			var data={
 				"class_id"   :  localStorage.getItem("class_id"),
@@ -61,23 +64,31 @@
 					var unsignHtml='';
 					var sign = dataRes.sign;
 					var unsign = dataRes.unsign;
-					$("#allPerson").html(sign.length+unsign.length);
-					$("#signPerson").html(sign.length);
+					var tmp = dataRes.tmp;
+					$("#allPerson").html(sign.length+unsign.length+tmp.length);
+					$("#signPerson").html(sign.length+tmp.length);
 					$("#unsignPerson").html(unsign.length)
 
 					for(var i=0;i<unsign.length;i++){
 						unsignHtml+='<div class="popList"><img class="bookIco pull-left" src="../../img/book.png">';
 							unsignHtml+='<p><span class="uName">'+unsign[i].name+'</span><span class="tel">'+unsign[i].number+'</span></p>';
 							unsignHtml+='<p><span>'+unsign[i].class+'</span></p>';
-							unsignHtml+='<a class="rightIco btn btn-success">补签到</a></div>'
-
+							unsignHtml+='<a class="rightIco btn btn-success" id="item_resign">补签到</a></div>'
 					}
 					$("#unsgin").html(unsignHtml);
+
 					for(var j=0;j<sign.length;j++){
 						signHtml+='<div class="popList"><img class="bookIco pull-left" src="../../img/book.png">';
 							signHtml+='<p><span class="uName">'+sign[j].name+'</span><span class="tel">'+sign[j].number+'</span></p>';
 							signHtml+='<p><span>'+sign[j].class+'</span></p>';
 							signHtml+='<img class="rightIco" src="../../img/ok.png"></img></div>';
+					}
+					for (var j=0;j<tmp.length;j++){
+						signHtml+='<div class="popList"><img class="bookIco pull-left" src="../../img/book.png">';
+						signHtml+='<p><span class="uName">'+tmp[j].name+'</span><span class="tel">'+tmp[j].number+'</span></p>';
+						signHtml+='<p><span>'+tmp[j].class+'</span></p>';
+						signHtml+='<img class="rightIco" src="../../img/ok.png"></img></div>';
+
 					}
 					$("#sgin").html(signHtml);
 				}
