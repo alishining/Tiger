@@ -21,32 +21,30 @@
 						<li><label>学号</label><input type="text" id="number"></li>
 						<li><label>班级</label><input type="text" id="cls"></li>
 						<li><label>姓名</label><input type="text" id="name"></li>
-						<li class="btnLi"><button id="reSgin" class="btn btn-success">确定</button></li>
+						<li class="btnLi"><button id="resign_btn" type="button" class="btn btn-success">确定</button></li>
 					</ul>
 				</form>
 			</div>
 		</div>
 	</body>
 	<script>
-		$(function(){
-			touch.on("#reSgin","tap",function(){
-				var data = {
-					"class_id"  : localStorage.getItem("class_id"),
-					"number"    : $("#number").val(),
-					"name"      : $("#name").val(),
-					"cls"       : $("#cls").val()
-				};
-				$.ajax({
-					url  : "/post_tmp_sign",
-					type : "post",
-					data : data,
-					success : function(res){
-						window.location.href="/sign_summery"
-					},
-					error : function(res){
-					}
-				});
-			})
+		touch.on("#resign_btn","tap",function(){
+			var data = {
+				"class_id"  : localStorage.getItem("class_id"),
+				"number"    : $("#number").val(),
+				"name"      : $("#name").val(),
+				"cls"       : $("#cls").val()
+			};
+			$.ajax({
+				url  : "/post_tmp_sign",
+				type : "post",
+				data : data,
+				success : function(res){
+					window.location.href="/sign_summery";
+				},
+				error : function(res){
+				}
+			});
 		})
 	</script>
 </html>

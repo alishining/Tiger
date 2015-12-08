@@ -1,4 +1,6 @@
 var mysql = require('mysql');
+var moment = require('moment');
+moment.locale('zh-cn');
 var sql = require('./sql_mapping');
 var pool = require('./mysql_pool').mysql_pool();
 var encrypt = require('../tools/encrypt');
@@ -200,8 +202,8 @@ exports.post_start_sign = function(req, res) {
 	try {
 		pool.getConnection(function(err, connection) {
 			try {
-				var myDate = new Date();
-				var create_time = myDate.toLocaleString();
+				var create_time = moment().format('LLLL');
+				console.log(create_time);
 				var subject_id = req.body.subject_id;
 				var class_id = encrypt.md5(subject_id + create_time); 
 				var values = [class_id, subject_id, create_time]; 
