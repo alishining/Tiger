@@ -55,10 +55,18 @@
 					html+='<p hidden="hidden">' + dataRes[i].class_id + '</p></li>';
 				}
 				$("#history_list").html(html)
-				touch.on("#history_list li",'tap',function(originEvent){
-					localStorage.create_time = originEvent.srcElement.childNodes[0].innerHTML;
-					localStorage.class_id = originEvent.srcElement.childNodes[1].innerHTML;
+				$("#history_list li").each(function(){
+					var _this = this;
+					touch.on(_this,'tap',function(originEvent){
+
+				//touch.on("#history_list li",'tap',function(originEvent){
+					localStorage.create_time = $($(_this).context).find('span').html();
+					localStorage.class_id = $($(_this).context).find('p').html();
+
+				//	localStorage.create_time = originEvent.srcElement.childNodes[0].innerHTML;
+				//	localStorage.class_id = originEvent.srcElement.childNodes[1].innerHTML;
 					window.location.href="/sign_summery";
+					})
 				})
 			}
 		});

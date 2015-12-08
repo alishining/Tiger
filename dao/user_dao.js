@@ -142,6 +142,46 @@ exports.post_sign_up = function(request, response) {
 	})
 };
 
+exports.post_resign_up = function(request, response) {
+	pool.getConnection(function(err, connection) {
+		try {
+			var class_id = request.body.class_id;
+			var subject_id = request.body.subject_id;
+
+			var number = request.body.number;
+			var name = request.body.name; 
+			var cls = request.body.cls; 
+
+			var values = [number, name, cls];
+			connection.query(sql.GET_WX_ID, values, function(err, ret){
+				try {
+					var wx_id = ret[0].wx_id;
+					values = [class_id, subject_id, wx_id, number, name, cls];
+					connection.query(sql.POST_SIGN_UP, values, function(err, ret){
+						try {
+							if (ret) {
+								console.log("POST SUCCESS");
+								response.json(success);
+							}
+							connection.release();
+						}
+						catch (err){
+							console.log(err);
+							response.json(failed);
+						}
+					}); 
+				} catch(err) {
+					console.log(err);
+					response.json(failed);
+				}
+			});
+		} catch (err){
+			console.log(err);
+			response.json(failed);
+		}
+	})
+};
+
 exports.post_sign_up_first = function(req, res) {
 	pool.getConnection(function(err, connection) {
 		try {

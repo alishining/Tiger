@@ -16,7 +16,8 @@ var user = {
 	GET_STUDENT: 'SELECT * FROM student_info WHERE wx_id=?',
 	ADD_SUBJECT_STUDENT : 'INSERT INTO subject_student(subject_id, wx_id, number, name, class) VALUES(?,?,?,?,?)',
 	POST_TMP_SIGN : 'INSERT INTO tmp_sign_list(class_id, number, name, class) VALUES(?,?,?,?)',
-	GET_TMP_SIGN : 'SELECT number,name,class FROM tmp_sign_list WHERE class_id = ?'
+	GET_TMP_SIGN : 'SELECT number,name,class FROM tmp_sign_list WHERE class_id = ?',
+	GET_WX_ID: 'SELECT wx_id FROM student_info WHERE number=? and name=? and class=?'
 };
 
 module.exports = user;
