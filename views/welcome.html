@@ -92,50 +92,55 @@
 									})
 									}else {
 									touch.on("#signSure",'tap',function(){
-										data = {
-											"number"    : $("#number").val(),
-											"name"      : $("#name").val(),
-											"cls"       : $("#cls").val(),
-											"wx_id":	  localStorage.getItem("wx_id"),
-											"class_id"  : localStorage.getItem("class_id"),
-											"subject_id": localStorage.getItem("subject_id")
-										};
-										$.ajax({
-											url : "/create_student",
-											type : "post",
-											data : data,
-											success : function(res){
-												$("#sign_up").hide();
-												$("#firstSignContent").hide();
-												$("#signSuccess").show(); 
-											},
-											error : function(res){
-											}
-										});
-										$.ajax({
-											url : "/post_sign_up_first",
-											type : "post",
-											data : data,
-											success : function(res){
-												$("#sign_up").hide();
-												$("#firstSignContent").hide();
-												$("#signSuccess").show(); 
-											},
-											error : function(res){
-											}
-										});
-										$.ajax({
-											url : "/add_subject_student",
-											type : "post",
-											data : data,
-											success : function(res){
-												$("#sign_up").hide();
-												$("#firstSignContent").hide();
-												$("#signSuccess").show(); 
-											},
-											error : function(res){
-											}
-										});
+										if ($("#number").val() == "" || $("#name").val() == "" || $("#cls").val() == "")
+										{
+											alert("输入内容不能为空");
+										} else {
+											data = {
+												"number"    : $("#number").val(),
+												"name"      : $("#name").val(),
+												"cls"       : $("#cls").val(),
+												"wx_id":	  localStorage.getItem("wx_id"),
+												"class_id"  : localStorage.getItem("class_id"),
+												"subject_id": localStorage.getItem("subject_id")
+											};
+											$.ajax({
+												url : "/create_student",
+												type : "post",
+												data : data,
+												success : function(res){
+													$("#sign_up").hide();
+													$("#firstSignContent").hide();
+													$("#signSuccess").show(); 
+												},
+												error : function(res){
+												}
+											});
+											$.ajax({
+												url : "/post_sign_up_first",
+												type : "post",
+												data : data,
+												success : function(res){
+													$("#sign_up").hide();
+													$("#firstSignContent").hide();
+													$("#signSuccess").show(); 
+												},
+												error : function(res){
+												}
+											});
+											$.ajax({
+												url : "/add_subject_student",
+												type : "post",
+												data : data,
+												success : function(res){
+													$("#sign_up").hide();
+													$("#firstSignContent").hide();
+													$("#signSuccess").show(); 
+												},
+												error : function(res){
+												}
+											});
+										}
 									})
 								}
 							}

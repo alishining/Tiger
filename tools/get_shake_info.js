@@ -53,25 +53,24 @@ exports.get_shake_info = function(request, response){
 								var values = [user_id];
 								connection.query(sql.GET_SIGNING_STATUS, values, function(err, ret){
 									try {
-										if (ret) {
-											ret[0].wx_id = obj.data.openid;
-											console.log("SHARK RET:", ret);
-											response.json(ret);
-										}
+										ret[0].wx_id = obj.data.openid;
+										console.log("SHARK RET:", ret);
+										response.json(ret);
 										connection.release();
 									}
 									catch (err){
 										console.log(err);
-										response.json(failed);
+										response.json(ret);
 									}
 								});
 							} catch (err){
 								console.log(err)
-								response.json(failed);
+								response.json(ret);
 							}
 						})
 					} catch (err) {
 						console.log(err);
+						response.json(ret);
 					}
 				});
 			});

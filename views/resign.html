@@ -28,6 +28,9 @@
 		</div>
 	</body>
 	<script>
+		touch.on(".leftIco","tap",function(){
+			window.location.href="/sign_summery";
+		})
 		touch.on("#resign_btn","tap",function(){
 			var data = {
 				"class_id"  : localStorage.getItem("class_id"),
@@ -35,16 +38,22 @@
 				"name"      : $("#name").val(),
 				"cls"       : $("#cls").val()
 			};
-			$.ajax({
-				url  : "/post_tmp_sign",
-				type : "post",
-				data : data,
-				success : function(res){
-					window.location.href="/sign_summery";
-				},
-				error : function(res){
-				}
-			});
+			if ($("#number").val() == "" || $("#name").val() == "" || $("#cls").val() == "")
+			{
+				alert("请正确输入学号，班级，姓名");
+			}
+			else {
+				$.ajax({
+					url  : "/post_tmp_sign",
+					type : "post",
+					data : data,
+					success : function(res){
+						window.location.href="/sign_summery";
+					},
+					error : function(res){
+					}
+				});
+			}
 		})
 	</script>
 </html>
