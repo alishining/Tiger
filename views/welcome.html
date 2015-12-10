@@ -6,6 +6,7 @@
 		<link rel="stylesheet" href="/css/bootstrap.min.css">
 		<link rel="stylesheet" href="/css/style.css"> 
 		<script type="text/javascript" src="/js/jquery.min.js" ></script>
+		<script type="text/javascript" src="/js/jquery.md5.js" ></script>
 		<script type="text/javascript" src="/js/touch.js" ></script>
 		<title>考勤神器</title>
 	</head>
@@ -98,50 +99,77 @@
 										{
 											alert("输入内容不能为空");
 										} else {
+
 											data = {
-												"number"    : $("#number").val(),
-												"name"      : $("#name").val(),
-												"cls"       : $("#cls").val(),
-												"wx_id":	  localStorage.getItem("wx_id"),
-												"class_id"  : localStorage.getItem("class_id"),
-												"subject_id": localStorage.getItem("subject_id")
+												"wx_id":$.md5($("#number").val() + $("#name").val() + $("#cls").val())
 											};
 											$.ajax({
-												url : "/create_student",
-												type : "post",
+												url: '/student_sign',
+												type : 'post',
 												data : data,
 												success : function(res){
-													$("#sign_up").hide();
-													$("#firstSignContent").hide();
-													$("#signSuccess").show(); 
-												},
-												error : function(res){
+													data = {
+														"number"    : $("#number").val(),
+														"name"      : $("#name").val(),
+														"cls"       : $("#cls").val(),
+														"wx_id"		: localStorage.getItem("wx_id"),
+														"md5_wx_id" : $.md5($("#number").val() + $("#name").val() + $("#cls").val()),
+														"class_id"  : localStorage.getItem("class_id"),
+														"subject_id": localStorage.getItem("subject_id")
+													};
+													if (res.code == 0) { 
+														$.ajax({
+															url : "/update_wx_id",
+															type : "post",
+															data : data,
+															success : function(res){
+																$("#sign_up").hide();
+																$("#firstSignContent").hide();
+																$("#signSuccess").show(); 
+															},
+															error : function(res){
+															}
+														});
+													} else {
+														$.ajax({
+															url : "/create_student",
+															type : "post",
+															data : data,
+															success : function(res){
+																$("#sign_up").hide();
+																$("#firstSignContent").hide();
+																$("#signSuccess").show(); 
+															},
+															error : function(res){
+															}
+														});
+														$.ajax({
+															url : "/post_sign_up_first",
+															type : "post",
+															data : data,
+															success : function(res){
+																$("#sign_up").hide();
+																$("#firstSignContent").hide();
+																$("#signSuccess").show(); 
+															},
+															error : function(res){
+															}
+														});
+														$.ajax({
+															url : "/add_subject_student",
+															type : "post",
+															data : data,
+															success : function(res){
+																$("#sign_up").hide();
+																$("#firstSignContent").hide();
+																$("#signSuccess").show(); 
+															},
+															error : function(res){
+															}
+														});
+													}
 												}
-											});
-											$.ajax({
-												url : "/post_sign_up_first",
-												type : "post",
-												data : data,
-												success : function(res){
-													$("#sign_up").hide();
-													$("#firstSignContent").hide();
-													$("#signSuccess").show(); 
-												},
-												error : function(res){
-												}
-											});
-											$.ajax({
-												url : "/add_subject_student",
-												type : "post",
-												data : data,
-												success : function(res){
-													$("#sign_up").hide();
-													$("#firstSignContent").hide();
-													$("#signSuccess").show(); 
-												},
-												error : function(res){
-												}
-											});
+											})
 										}
 									})
 								}
@@ -151,5 +179,4 @@
 				}
 			});
 		</script>
-	
 </html>

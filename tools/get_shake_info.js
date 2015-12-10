@@ -51,6 +51,7 @@ exports.get_shake_info = function(request, response){
 							try {
 								var user_id = obj.data.beacon_info.minor;
 								var values = [user_id];
+								console.log(values);
 								connection.query(sql.GET_SIGNING_STATUS, values, function(err, ret){
 									try {
 										ret[0].wx_id = obj.data.openid;

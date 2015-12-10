@@ -453,4 +453,38 @@ exports.add_subject_student = function(req, res){
 	}
 };
 
+exports.update_wx_id = function(req, res){
+	try {
+		pool.getConnection(function(err, connection) {
+			try {
+				var wx_id = req.body.wx_id; 
+				var md5_wx_id = req.body.md5_wx_id;
+				console.log(wx_id, md5_wx_id);
+				var table_name = ['student_info', 'subject_student', 'student_sign'];
+				var values = []; 
+				for (var i=0;i<3;i++) {
+					var tn = table_name[i];
+					values = [wx_id, md5_wx_id];
+					var sql_query = 'UPDATE ' + tn + ' SET wx_id=? WHERE wx_id=?'
+					connection.query(sql_query, values, function(err, ret){
+						try {
+							if (ret) {
+								console.log('SUCCESS UPDATE WX_ID:', tn);
+								res.json(ret);
+							}
+						}
+						catch (err){
+							console.log(err);
+						}
+					}); 
+				}
+				connection.release();
+			} catch (err){
+				console.log(err);
+			}
+		})
+	} catch (err) {
+		console.log(err);
+	}
+};
 

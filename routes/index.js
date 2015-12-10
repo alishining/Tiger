@@ -73,3 +73,6 @@ exports.post_resign_up = function(req, res){
 exports.clear = function(req, res){
 	res.render('clear');
 };
+exports.update_wx_id = function(req, res){
+	user_dao.update_wx_id(req, res);
+};
