@@ -217,6 +217,7 @@ exports.post_subject_list = function(req, res) {
 		pool.getConnection(function(err, connection) {
 			try {
 				var values = [req.body.user_id]; 
+				console.log("user_id:", req.body.user_id);
 				connection.query(sql.GET_SUBJECT_LIST, values, function(err, ret){
 					try {
 						console.log(ret);

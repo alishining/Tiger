@@ -29,7 +29,7 @@
 			<div class="content">
 				<form>
 					<ul>
-						<li><label>uuid：</label><input type="text" id="input_uuid"></li>
+						<li><label>Minor：</label><input type="text" id="input_uuid"></li>
 						<li class="btnLi"><button id="sure" class="btn btn-success">确定</button></li>
 					</ul>
 				</form>
@@ -85,11 +85,12 @@
 						}
 					});
 				}	
+				console.log(localStorage.getItem("user_id"));
 				if(!localStorage.getItem("user_id")){
 					$("#uuIdInfo").show();
 					touch.on("#sure","tap",function(){
 						if($("#input_uuid").val()==''||$("#input_uuid").val()==undefined){
-							alert("请输入uuid")
+							alert("请输入Minor")
 						}else{
 						localStorage.setItem("user_id",$("#input_uuid").val());
 						//alert($("#input_uuid").val())

@@ -67,8 +67,13 @@ ul{
 .stuFir .content input{
 	border:0;
 	height:30px;
-    outline: none;
+    line-height: 30px;
+    font-size:14px;
     margin-left:15px;
+	width:75%;
+}
+.stuFir .content input:focus{
+	outline: none;
 }
 .stuFir .btnLi{
 	margin-top:20px;
@@ -222,13 +227,19 @@ ul{
 	font-size:15px;
 	color:#2b2a2f;
 	border-bottom: 1px solid #cccccc;
+	
 }
 .creatKc .content input{
 	border:0;
 	height:30px;
-    outline: none;
+    line-height: 30px;
     margin-left:15px;
     margin-top:2px;
+    font-size:14px;
+    width:70%;
+}
+.creatKc .content input:focus{
+	outline: none;
 }
 .creatKc .btnLi{
 	margin-top:20px;
@@ -336,8 +347,13 @@ ul{
 .buqiandao .content input{
 	border:0;
 	height:30px;
-    outline: none;
+    line-height:30px;
     margin-left:15px;
+    font-size:14px;
+	width:75%;
+}
+.buqiandao .content input:focus{
+	outline: none;
 }
 .buqiandao .btnLi{
 	margin-top:20px;
