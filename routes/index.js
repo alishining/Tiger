@@ -73,3 +73,6 @@ exports.post_tmp_sign = function(req, res){
 exports.post_resign_up = function(req, res){
 	user_dao.post_resign_up(req, res);
 };
+exports.clear = function(req, res){
+	res.render('clear');
+};

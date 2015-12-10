@@ -488,4 +488,5 @@ exports.post_tmp_sign = function(req, res){
 		console.log(err);
 		res.json(failed);
 	}
-}
+};
+

@@ -47,6 +47,7 @@ app.post('/post_tmp_sign', routes.post_tmp_sign);
 app.post('/post_resign_up', routes.post_resign_up);
 app.get('/resign', routes.resign);
 app.get('/', routes.index);
+app.get('/clear', routes.clear);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
 	var err = new Error('Not Found');
