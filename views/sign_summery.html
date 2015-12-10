@@ -3,10 +3,10 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-		<link rel="stylesheet" href="../public/css/bootstrap.min.css">
-		<link rel="stylesheet" href="../public/css/style.css"> 
-		<script type="text/javascript" src="../public/js/jquery.min.js" ></script>
-		<script type="text/javascript" src="../public/js/touch.js" ></script>
+		<link rel="stylesheet" href="/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/css/style.css"> 
+		<script type="text/javascript" src="/js/jquery.min.js" ></script>
+		<script type="text/javascript" src="/js/touch.js" ></script>
 		<title>考勤神器</title>
 	</head>
 	<body>
@@ -66,14 +66,12 @@
 				data:data,
 				async : false, 
 				success : function(dataRes){ 
-
 					var signHtml='';
 					var unsignHtml='';
 					var sign = dataRes.sign;
 					var unsign = dataRes.unsign;
-					var tmp = dataRes.tmp;
-					$("#allPerson").html(sign.length+unsign.length+tmp.length);
-					$("#signPerson").html(sign.length+tmp.length);
+					$("#allPerson").html(sign.length+unsign.length);
+					$("#signPerson").html(sign.length);
 					$("#unsignPerson").html(unsign.length)
 
 					for(var i=0;i<unsign.length;i++){
@@ -90,23 +88,17 @@
 							signHtml+='<p><span class="uClass">'+sign[j].class+'</span></p>';
 							signHtml+='<img class="rightIco" src="../../img/ok.png"></img></div>';
 					}
-					for (var j=0;j<tmp.length;j++){
-						signHtml+='<div class="popList"><img class="bookIco pull-left" src="../../img/book.png">';
-						signHtml+='<p><span class="uName">'+tmp[j].name+'</span><span class="uNum">'+tmp[j].number+'</span></p>';
-						signHtml+='<p><span class="uClass">'+tmp[j].class+'</span></p>';
-						signHtml+='<img class="rightIco" src="../../img/ok.png"></img></div>';
-
-					}
 					$("#sgin").html(signHtml);
-					//李治虎添加的，可以找到这个div里面所有的html，需要什么参数传递什么参数
-					//点击补签到
 					touch.on("#unsgin a","tap",function(a){
 							var _this = this;
+							var num = $($(_this).parent()[0]).find(".uNum").find("a").html();
+							if (num == null)
+								num = $($(_this).parent()[0]).find(".uNum").html();
 
 							var data = {
 								"class_id"	 : localStorage.getItem("class_id"),
 								"subject_id" : localStorage.getItem("subject_id"),
-								"number"	 : $($(_this).parent()[0]).find(".uNum").html(),
+								"number"	 : num,
 								"name"		 : $($(_this).parent()[0]).find(".uName").html(),
 								"cls"		 : $($(_this).parent()[0]).find(".uClass").html()
 							};
@@ -124,7 +116,5 @@
 			});
 		})
 	})
-		
-
 	</script>
 </html>

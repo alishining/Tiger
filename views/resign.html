@@ -3,10 +3,11 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-		<link rel="stylesheet" href="../public/css/bootstrap.min.css">
-		<link rel="stylesheet" href="../public/css/style.css"> 
-			<script type="text/javascript" src="../public/js/jquery.min.js" ></script>
-		<script type="text/javascript" src="../public/js/touch.js" ></script>
+		<link rel="stylesheet" href="/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/css/style.css"> 
+		<script type="text/javascript" src="/js/jquery.min.js" ></script>
+		<script type="text/javascript" src="/js/jquery.md5.js" ></script>
+		<script type="text/javascript" src="/js/touch.js" ></script>
 		<title>考勤神器</title>
 	</head>
 	<body>
@@ -34,19 +35,41 @@
 			window.location.href="/sign_summery";
 		})
 		touch.on("#resign_btn","tap",function(){
-			var data = {
-				"class_id"  : localStorage.getItem("class_id"),
-				"number"    : $("#number").val(),
-				"name"      : $("#name").val(),
-				"cls"       : $("#cls").val()
-			};
 			if ($("#number").val() == "" || $("#name").val() == "" || $("#cls").val() == "")
 			{
 				alert("请正确输入学号，班级，姓名");
 			}
 			else {
+				var data = {
+					"number"    : $("#number").val(),
+					"name"      : $("#name").val(),
+					"cls"       : $("#cls").val(),
+					"wx_id"		: $.md5($("#number").val() + $("#name").val() + $("#cls").val()),
+					"subject_id" : localStorage.getItem("subject_id"),
+					"class_id" : localStorage.getItem("class_id")
+				};
 				$.ajax({
-					url  : "/post_tmp_sign",
+					url  : "/create_student",
+					type : "post",
+			        data : data,
+					success : function(res){
+						window.location.href="/sign_summery";
+					},
+					error : function(res){
+					}
+				});
+				$.ajax({
+					url  : "/add_subject_student",
+					type : "post",
+					data : data,
+					success : function(res){
+						window.location.href="/sign_summery";
+					},
+					error : function(res){
+					}
+				});
+				$.ajax({
+					url  : "/post_sign_up_first",
 					type : "post",
 					data : data,
 					success : function(res){

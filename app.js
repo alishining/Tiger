@@ -43,7 +43,6 @@ app.post('/del_signing_status', routes.del_signing_status);
 app.post('/get_signing_status', routes.get_signing_status);
 app.post('/post_resign', routes.post_resign);
 app.post('/get_shake_info', routes.get_shake_info);
-app.post('/post_tmp_sign', routes.post_tmp_sign);
 app.post('/post_resign_up', routes.post_resign_up);
 app.get('/resign', routes.resign);
 app.get('/', routes.index);

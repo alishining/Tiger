@@ -3,10 +3,10 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-		<link rel="stylesheet" href="../public/css/bootstrap.min.css">
-		<link rel="stylesheet" href="../public/css/style.css"> 
-		<script type="text/javascript" src="../public/js/jquery.min.js" ></script>
-		<script type="text/javascript" src="../public/js/touch.js" ></script>
+		<link rel="stylesheet" href="/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/css/style.css"> 
+		<script type="text/javascript" src="/js/jquery.min.js" ></script>
+		<script type="text/javascript" src="/js/touch.js" ></script>
 		<title>考勤神器</title>
 
 	</head>
@@ -67,7 +67,6 @@
 								html+='<p>'+dataRes[i].class+'</p><span class="rightIco"></span></li>';
 							}
 							$("#classList").html(html);
-							//李治虎修改的
 							$("#classList li").each(function(){
 								var _this = this;
 								touch.on(_this,'tap',function(){
@@ -75,9 +74,6 @@
 								 localStorage.subject_id = $($(_this).context).find('div').html();
 								 localStorage.subject = $($(_this).context).find('span').html();
 								 localStorage.cls = $($(_this).context).find('p').html();
-								/*localStorage.subject_id = originEvent.srcElement.childNodes[1].innerHTML;
-								localStorage.subject = originEvent.srcElement.childNodes[2].innerHTML;
-								localStorage.cls = originEvent.srcElement.childNodes[3].innerHTML;*/
 								window.location.href="/start_sign";
 							})
 							})
@@ -92,9 +88,7 @@
 							alert("请输入绑定账号")
 						}else{
 						localStorage.setItem("user_id",$("#input_uuid").val());
-						//alert($("#input_uuid").val())
-						$("#uuIdInfo").hide();
-						$("#subject_list").show();
+						window.location.href="/subject_list";
 						}
 						
 					})
