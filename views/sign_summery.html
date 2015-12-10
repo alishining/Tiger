@@ -3,23 +3,23 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-		<link rel="stylesheet" href="../../css/bootstrap.min.css">
-		<link rel="stylesheet" href="../../css/style.css"> 
-		<script type="text/javascript" src="../../js/jquery.min.js" ></script>
-		<script type="text/javascript" src="../../js/touch.js" ></script>
+		<link rel="stylesheet" href="../public/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../public/css/style.css"> 
+		<script type="text/javascript" src="../public/js/jquery.min.js" ></script>
+		<script type="text/javascript" src="../public/js/touch.js" ></script>
 		<title>考勤神器</title>
 	</head>
 	<body>
 		<div class="container result">
 			<div class="header">
 				<span class="leftIco"></span>
-				<h4><script>document.write(localStorage.getItem("create_time"))</script></h4>
+				<h4 id="resTitle"></h4>
 			</div>
 			<div class="content">
 				<div class="title">
 					<img class="bookIco pull-left" src="../../img/book.png">
-					<span><script>document.write(localStorage.getItem("subject"))</script></span>
-					<p><script>document.write(localStorage.getItem("cls"))</script></p>
+					<span id="subjectId"></span>
+					<p id="classId"></p>
 					<a class="rightIco btn btn-success" id="resign">补签到</a>
 				</div>
 				<div class="popNum">
@@ -45,6 +45,10 @@
 		</div>
 	</body>
 	<script>
+	$(function(){
+		$("#resTitle").html(localStorage.getItem("create_time"))
+		$("#subjectId").html(localStorage.getItem("subject"))
+		$("#classId").html(localStorage.getItem("cls"))
 		touch.on(".leftIco","tap",function(){
 			window.location.href="/start_sign";
 	    })
@@ -119,6 +123,8 @@
 
 			});
 		})
+	})
+		
 
 	</script>
 </html>

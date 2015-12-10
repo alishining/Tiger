@@ -3,17 +3,17 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-		<link rel="stylesheet" href="../../css/bootstrap.min.css">
-		<link rel="stylesheet" href="../../css/style.css"> 
-			<script type="text/javascript" src="../../js/jquery.min.js" ></script>
-		<script type="text/javascript" src="../../js/touch.js" ></script>
+		<link rel="stylesheet" href="../public/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../public/css/style.css"> 
+			<script type="text/javascript" src="../public/js/jquery.min.js" ></script>
+		<script type="text/javascript" src="../public/js/touch.js" ></script>
 		<title>考勤神器</title>
 	</head>
 	<body>
 		<div class="container buqiandao">
 			<div class="header">
 				<span class="leftIco"></span>
-				<h4><script>document.write(localStorage.getItem("create_time"))</script></h4>
+				<h4 id="resTitle"></h4>
 			</div>
 			<div class="content">
 				<form>
@@ -28,6 +28,8 @@
 		</div>
 	</body>
 	<script>
+	$(function(){
+		$("#resTitle").html(localStorage.getItem("create_time"));
 		touch.on(".leftIco","tap",function(){
 			window.location.href="/sign_summery";
 		})
@@ -55,5 +57,7 @@
 				});
 			}
 		})
+	})
+		
 	</script>
 </html>

@@ -3,10 +3,11 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-		<link rel="stylesheet" href="../../css/bootstrap.min.css">
-		<link rel="stylesheet" href="../../css/style.css"> 
-		<script type="text/javascript" src="../../js/touch.js" ></script>
-		<title>考勤神器</title>
+		<link rel="stylesheet" href="../public/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../public/css/style.css"> 
+			<script type="text/javascript" src="../../js/jquery.min.js" ></script>
+		<script type="text/javascript" src="../public/js/touch.js" ></script>
+		<title>创建课程</title>
 	</head>
 	<body>
 		<div class="container creatKc">
@@ -25,10 +26,10 @@
 				</form>
 			</div>
 		</div>
-		<script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
-		<script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		
 		<script>
-			touch.on(".leftIco","tap",function(){
+		$(function(){
+				touch.on(".leftIco","tap",function(){
 				window.location.href="/subject_list";
 			})
 			$("#ctSubject").click(function(){
@@ -55,6 +56,7 @@
 					});
 				}
 			});
+		})
 		</script>
 	</body>
 </html>

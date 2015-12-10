@@ -3,10 +3,10 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-		<link rel="stylesheet" href="../../css/bootstrap.min.css">
-		<link rel="stylesheet" href="../../css/style.css"> 
-		<script type="text/javascript" src="../../js/jquery.min.js" ></script>
-		<script type="text/javascript" src="../../js/touch.js" ></script>
+		<link rel="stylesheet" href="../public/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../public/css/style.css"> 
+		<script type="text/javascript" src="../public/js/jquery.min.js" ></script>
+		<script type="text/javascript" src="../public/js/touch.js" ></script>
 		<title>考勤神器</title>
 
 	</head>
@@ -23,19 +23,19 @@
 		</div>
 		<div id="uuIdInfo" class="container buqiandao" style="display: none;">
 			<div class="header">
-				<span class="leftIco"></span>
+				
 				<h4>完善信息</h4>
 			</div>
 			<div class="content">
 				<form>
 					<ul>
-						<li><label>Minor：</label><input type="text" id="input_uuid"></li>
+						<li><label>绑定账号</label><input type="text" id="input_uuid"></li>
 						<li class="btnLi"><button id="sure" class="btn btn-success">确定</button></li>
 					</ul>
 				</form>
 			</div>
 		</div>
-		
+		</body>
 		<script>
 			$(function(){
 				
@@ -85,12 +85,11 @@
 						}
 					});
 				}	
-				console.log(localStorage.getItem("user_id"));
 				if(!localStorage.getItem("user_id")){
 					$("#uuIdInfo").show();
 					touch.on("#sure","tap",function(){
-						if($("#input_uuid").val()==''||$("#input_uuid").val()==undefined){
-							alert("请输入Minor")
+						if($("#input_uuid").val()==''){
+							alert("请输入绑定账号")
 						}else{
 						localStorage.setItem("user_id",$("#input_uuid").val());
 						//alert($("#input_uuid").val())
@@ -109,5 +108,5 @@
 				})
 			})
 		</script>
-	</body>
+	
 </html>
