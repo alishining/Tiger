@@ -6,9 +6,13 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var ejs = require('ejs');
+var user_dao = require('./dao/user_dao');
 var routes = require('./routes/index');
 
 var app = express();
+
+global.id_list = new Set();
+user_dao.load_student();
 
 // view engine setup
 app.set('port', 80);

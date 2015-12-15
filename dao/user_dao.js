@@ -57,6 +57,7 @@ exports.create_student = function(req, res) {
 			var name = req.body.name;
 			var cls = req.body.cls; 
 			var values = [wx_id, number, name, cls];
+			global.id_list.add(wx_id);
 			connection.query(sql.CREATE_STUDENT, values, function(err, ret){
 				try {
 					if (ret){
@@ -79,27 +80,35 @@ exports.create_student = function(req, res) {
 };
 
 exports.student_sign = function(req, res) {
+	var wx_id = req.body.wx_id; 
+	try {
+		if (global.id_list.has(wx_id)) {
+			res.json(success);
+		} else {
+			res.json(failed);
+		}
+	} catch(err) {
+		console.log(err);
+	}
+}
+	
+exports.load_student = function() {
 	pool.getConnection(function(err, connection) {
 		try {
-			var values = [req.body.wx_id]; 
-			console.log("wx_id", values);
-			connection.query(sql.CHECK_STUDENT, values, function(err, ret){
+			connection.query(sql.CHECK_STUDENT, function(err, ret){
 				try {
-					if (ret[0].wx_id != undefined){
-						res.json(success);
-					} else {
-						res.json(failed);
+					for (var i=0;i<ret.length;i++) {
+						global.id_list.add(ret[i].wx_id);
 					}
+					console.log(global.id_list);
 					connection.release();
 				}
 				catch (err){
 					console.log(err);
-					res.json(failed);
 				}
 			}); 
 		} catch (err){
 			console.log(err);
-			res.json(failed);
 		}
 	})
 };
