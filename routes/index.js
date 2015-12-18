@@ -76,3 +76,9 @@ exports.clear = function(req, res){
 exports.update_wx_id = function(req, res){
 	user_dao.update_wx_id(req, res);
 };
+exports.login = function(req, res){
+	user_dao.login(req, res);
+};
+exports.register = function(req, res){
+	user_dao.register(req, res);
+};

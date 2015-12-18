@@ -4,6 +4,7 @@ moment.locale('zh-cn');
 var sql = require('./sql_mapping');
 var pool = require('./mysql_pool').mysql_pool();
 var encrypt = require('../tools/encrypt');
+var sendMail = require('../tools/mail');
 
 var failed = {
 	msg  : "failed",
@@ -497,3 +498,77 @@ exports.update_wx_id = function(req, res){
 	}
 };
 
+exports.load_user = function(req, res){
+	pool.getConnection(function(err, connection) {
+		try {
+			connection.query(sql.LOAD_USER, function(err, ret){
+				try {
+					for (var i=0;i<ret.length;i++) {
+						global.user_info.set(ret[i].email, {"pwd": ret[i].password, "uid": ret[i].user_id});
+					}
+					connection.release();
+				}
+				catch (err){
+					console.log(err);
+				}
+			}); 
+		} catch (err){
+			console.log(err);
+		}
+	})
+}
+
+exports.login = function(req, res){
+	var email = req.body.email;
+	var pwd = req.body.password;
+	if (pwd == global.user_info.get(email).pwd) {
+		success.msg = global.user_info.get(email).user_id;
+		res.json(success);
+	} else {
+		res.json(failed);
+	}
+
+};
+
+exports.register = function(req, res){
+	try {
+		pool.getConnection(function(err, connection) {
+			try {
+				var email = req.body.email;
+				var pwd = req.body.password;
+				var user_id = req.body.user_id;
+				var values = [email, pwd, user_id]; 
+				global.user_info.set(email, {"pwd": pwd, "uid": user_id});
+				connection.query(sql.REGISTER, values, function(err, ret){
+					try {
+						if (ret) {
+							console.log('SUCCESS REGISTER');
+							res.json(success);
+						}
+						connection.release();
+					}
+					catch (err){
+						console.log(err);
+					}
+				}); 
+			} catch (err){
+				console.log(err);
+			}
+		})
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+exports.forget = function(req, res){
+	try {
+		var email = req.body.email;
+		var rNum = Math.floor(Math.random()*10000);
+		var content = '<p>' + rNum + '</p>';
+		sendMail.mail(email, "考勤神器验证码", content);	
+		success.msg = rNum;
+		res.json(success);
+	} catch(err) {
+		res.json(failed);
+	}
+}

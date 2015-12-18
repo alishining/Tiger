@@ -13,9 +13,11 @@ var app = express();
 
 global.id_list = new Set();
 user_dao.load_student();
+global.user_info = new Map();
+user_dao.load_user();
 
 // view engine setup
-app.set('port', 80);
+app.set('port', 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.engine('.html', ejs.__express);
 app.set('view engine', 'html');
@@ -52,6 +54,9 @@ app.get('/resign', routes.resign);
 app.get('/', routes.index);
 app.get('/clear', routes.clear);
 app.post('/update_wx_id', routes.update_wx_id);
+app.post('/login', routes.login);
+app.post('/register', routes.register);
+app.post('/forget', user_dao.forget);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
 	var err = new Error('Not Found');
