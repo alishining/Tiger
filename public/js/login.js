@@ -36,7 +36,7 @@ $(function(){
 	 			data:data,
 	 			success:function(){
 	 				alert("登陆成功")
-	 			}
+				}
 	 		});
 	 	}
 	 })
