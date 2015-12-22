@@ -82,3 +82,6 @@ exports.login = function(req, res){
 exports.register = function(req, res){
 	user_dao.register(req, res);
 };
+exports.reset = function(req, res){
+	user_dao.reset(req, res);
+};

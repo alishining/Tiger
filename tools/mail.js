@@ -13,7 +13,7 @@ var smtpTransport = nodemailer.createTransport("SMTP", {
 exports.mail = function(email, title, content) {
 	smtpTransport.sendMail({
 		from    : '考勤神器<' + user + '>',
-		to      : '<' + email + '>', 
+		to      : email, 
 		subject : title, 
 		html    : content
 	}, function(err, res) {

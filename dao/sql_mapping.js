@@ -19,7 +19,8 @@ var user = {
 	GET_TMP_SIGN : 'SELECT number,name,class FROM tmp_sign_list WHERE class_id = ?',
 	GET_WX_ID: 'SELECT wx_id FROM student_info WHERE number=? and name=? and class=?',
 	LOAD_USER: 'select * from account',
-	REGISTER: 'INSERT INTO account(email, password, user_id) VALUES(?,?,?)'
+	REGISTER: 'INSERT INTO account(email, password, user_id) VALUES(?,?,?)',
+	RESET : 'UPDATE account SET password=? WHERE email=?'
 };
 
 module.exports = user;

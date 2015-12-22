@@ -522,7 +522,7 @@ exports.login = function(req, res){
 	var email = req.body.email;
 	var pwd = req.body.password;
 	if (pwd == global.user_info.get(email).pwd) {
-		success.msg = global.user_info.get(email).user_id;
+		success.msg = global.user_info.get(email).uid;
 		res.json(success);
 	} else {
 		res.json(failed);
@@ -549,14 +549,17 @@ exports.register = function(req, res){
 					}
 					catch (err){
 						console.log(err);
+						res.json(failed);
 					}
 				}); 
 			} catch (err){
 				console.log(err);
+				res.json(failed);
 			}
 		})
 	} catch (err) {
 		console.log(err);
+		res.json(failed);
 	}
 };
 
@@ -565,10 +568,50 @@ exports.forget = function(req, res){
 		var email = req.body.email;
 		var rNum = Math.floor(Math.random()*10000);
 		var content = '<p>' + rNum + '</p>';
-		sendMail.mail(email, "考勤神器验证码", content);	
-		success.msg = rNum;
-		res.json(success);
+		console.log(email);
+		if (global.user_info.get(email).uid !=undefined) {
+			sendMail.mail(email, "考勤神器验证码", content);	
+			success.msg = rNum;
+			res.json(success);
+		} else {
+			res.json(failed);
+		}
 	} catch(err) {
 		res.json(failed);
 	}
-}
+};
+
+exports.reset = function(req, res){
+	try {
+		pool.getConnection(function(err, connection) {
+			try {
+				var email = req.body.email;
+				var pwd = req.body.password;
+				var values = [pwd, email]; 
+				var user_id = global.user_info.get(email).uid;
+				global.user_info.set(email, {"pwd": pwd, "uid": user_id});
+				connection.query(sql.RESET, values, function(err, ret){
+					try {
+						if (ret) {
+							console.log('SUCCESS RESET');
+							res.json(success);
+						}
+						connection.release();
+					}
+					catch (err){
+						console.log(err);
+						res.json(failed);
+					}
+				}); 
+			} catch (err){
+				console.log(err);
+				res.json(failed);
+			}
+		})
+	} catch (err) {
+		console.log(err);
+		res.json(failed);
+	}
+};
+
+
