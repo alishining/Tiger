@@ -85,3 +85,15 @@ exports.register = function(req, res){
 exports.reset = function(req, res){
 	user_dao.reset(req, res);
 };
+exports.render_login = function(req, res){
+	res.render('login');
+};
+exports.render_register = function(req, res){
+	res.render('register');
+};
+exports.render_forget = function(req, res){
+	res.render('find_pass_word');
+};
+exports.render_reset = function(req, res){
+	res.render('reset_pass_word');
+};

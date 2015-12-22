@@ -58,6 +58,10 @@ app.post('/login', routes.login);
 app.post('/register', routes.register);
 app.post('/forget', user_dao.forget);
 app.post('/reset', user_dao.reset);
+app.get('/find_pass_word', routes.render_forget);
+app.get('/login', routes.render_login);
+app.get('/register', routes.render_register);
+app.get('/reset_pass_word', routes.render_reset);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
 	var err = new Error('Not Found');

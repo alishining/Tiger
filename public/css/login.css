@@ -1,0 +1,378 @@
+html,body{
+	padding:0;
+	margin:0;
+	font-family: "微软雅黑";
+	height:100%;
+	
+}
+ul{
+	list-style: none;
+	padding:0;
+}
+a,a:hover,a:active{
+	text-decoration: none;
+}
+/**
+ * login
+ * 
+ */
+#login{
+	width:100%;
+	height:100%;
+	background:#f2f3f5;
+}
+#login .form-box{
+	border:1px solid #e5e5e5;
+	border-radius:3px;
+	margin-top:20px;
+	margin-bottom:20px;
+	padding:1px 0;
+}
+#login 	.form-box li:first-child{
+	border-bottom:1px solid #e5e5e5;
+}
+#login li{
+	height:48px;
+	padding:0px 26px 0 11px;
+	font-size:15px;
+	background:#fff;
+	position:relative;
+	
+}
+#login input{
+	border:none;
+	width:100%;
+	height:100%;
+	color:#404040;
+	font-size:15px;
+}
+#login input:hover,#login input:active{
+	outline: none;
+	background:#fff;
+}
+#login .btn{
+	width:100%;
+	height:44px;
+	background:#addea6;
+	font-size:17px;
+	color:#fff;
+	border-radius: 3px;
+}
+#login .btn-default:hover{
+	background:#5cb34c;
+	color:#fff;
+}
+#login .btn.active{
+	background:#69c957;
+	color:#fff;
+}
+#login .reg-box{
+	margin-top:18px;
+	text-align: center;
+	font-size:14px;
+}
+#login #register{
+	color:#53ae42;
+}
+#login #find-pass{
+	color:#adadad;
+	width:110px;
+	border-left:1px solid #ccc;
+}
+#login .foot-btn{
+	display:inline-block;
+	height:14px;
+	line-height:14px;
+	width:100px;
+	margin:0;
+}
+#login .del-ico{
+	position:absolute;
+	display:block;
+	background:url(../img/delete.png);
+	background-size:100%;
+	width:27px;
+	height:27px;
+	top:10px;
+	right:0;
+}
+/*
+ * find-pass-word
+ */
+#resetPassWord{
+	width:100%;
+	height:100%;
+	background:#f2f3f5;
+}
+#resetPassWord .form-box{
+	border:1px solid #e5e5e5;
+	border-radius:3px;
+	margin-top:20px;
+	margin-bottom:20px;
+	padding:1px 0;
+}
+#resetPassWord 	.form-box li:first-child{
+	border-bottom:1px solid #e5e5e5;
+}
+#resetPassWord li{
+	height:48px;
+	padding:0px 26px 0 11px;
+	font-size:15px;
+	background:#fff;
+	position:relative;
+	
+}
+#resetPassWord input{
+	border:none;
+	width:100%;
+	height:100%;
+	color:#404040;
+	font-size:15px;
+}
+#resetPassWord input:hover,#resetPassWord input:active{
+	outline: none;
+	background:#fff;
+}
+#resetPassWord .btn{
+	width:100%;
+	height:44px;
+	background:#addea6;
+	font-size:17px;
+	color:#fff;
+	border-radius: 3px;
+}
+#resetPassWord .btn-default:hover{
+	background:#5cb34c;
+	color:#fff;
+}
+#resetPassWord .btn.active{
+	background:#69c957;
+	color:#fff;
+}
+#resetPassWord .del-ico{
+	position:absolute;
+	display:block;
+	background:url(../img/delete.png);
+	background-size:100%;
+	width:27px;
+	height:27px;
+	top:10px;
+	right:0;
+}
+/*
+ * register
+ */
+
+#registerCont{
+	width:100%;
+	height:100%;
+	background:#f2f3f5;
+}
+#registerCont .form-box{
+	border:1px solid #e5e5e5;
+	border-radius:3px;
+	margin-top:20px;
+	margin-bottom:20px;
+	padding:1px 0;
+}
+#registerCont .form-box li:first-child,
+#registerCont .form-box .num-li{
+	border-bottom:1px solid #e5e5e5;
+}
+#registerCont li{
+	height:48px;
+	padding:0px 26px 0 11px;
+	font-size:15px;
+	background:#fff;
+	position:relative;
+	
+}
+#registerCont input{
+	border:none;
+	width:100%;
+	height:100%;
+	color:#404040;
+	font-size:15px;
+}
+#registerCont input:hover,#registerCont input:active{
+	outline: none;
+	background:#fff;
+}
+#registerCont .btn{
+	width:100%;
+	height:44px;
+	background:#addea6;
+	font-size:17px;
+	color:#fff;
+	border-radius: 3px;
+}
+#registerCont .btn-default:hover{
+	background:#5cb34c;
+	color:#fff;
+}
+#registerCont .btn.active{
+	background:#69c957;
+	color:#fff;
+}
+#registerCont .reg-box{
+	margin-top:18px;
+	text-align: center;
+	font-size:14px;
+}
+#registerCont #register{
+	color:#53ae42;
+}
+#registerCont #find-pass{
+	color:#adadad;
+	width:110px;
+	border-left:1px solid #ccc;
+}
+#registerCont .foot-btn{
+	display:inline-block;
+	height:14px;
+	line-height:14px;
+	width:100px;
+	margin:0;
+}
+#registerCont .del-ico{
+	position:absolute;
+	display:block;
+	background:url(../img/delete.png);
+	background-size:100%;
+	width:27px;
+	height:27px;
+	top:10px;
+	right:0;
+}
+/*
+ * find_pass_email
+ */
+#findPassWord{
+	width:100%;
+	height:100%;
+	background:#f2f3f5;
+}
+#findPassWord .form-box{
+	border:1px solid #e5e5e5;
+	border-radius:3px;
+	margin-top:20px;
+	margin-bottom:20px;
+	padding:1px 0;
+}
+#findPassWord li{
+	height:48px;
+	padding:0px 26px 0 11px;
+	font-size:15px;
+	background:#fff;
+	position:relative;
+	
+}
+#findPassWord input{
+	border:none;
+	width:100%;
+	height:100%;
+	color:#404040;
+	font-size:15px;
+}
+#findPassWord input:hover,#findPassWord input:active{
+	outline: none;
+	background:#fff;
+}
+#findPassWord .btn{
+	width:100%;
+	height:44px;
+	background:#addea6;
+	font-size:17px;
+	color:#fff;
+	border-radius: 3px;
+}
+#findPassWord .btn-default:hover{
+	background:#5cb34c;
+	color:#fff;
+}
+#findPassWord .btn.active{
+	background:#69c957;
+	color:#fff;
+}
+#findPassWord .del-ico{
+	position:absolute;
+	display:block;
+	background:url(../img/delete.png);
+	background-size:100%;
+	width:27px;
+	height:27px;
+	top:10px;
+	right:0;
+}
+#verCode{
+	width:100%;
+	height:100%;
+	background:#f2f3f5;
+}
+#verCode .form-box{
+	border:1px solid #e5e5e5;
+	border-radius:3px;
+	margin-bottom:20px;
+	padding:1px 0;
+}
+#verCode li{
+	height:48px;
+	padding:0px 26px 0 11px;
+	font-size:15px;
+	background:#fff;
+	position:relative;
+	
+}
+#verCode input{
+	border:none;
+	width:100%;
+	height:100%;
+	color:#404040;
+	font-size:15px;
+}
+#verCode input:hover,#verCode input:active{
+	outline: none;
+	background:#fff;
+}
+#verCode .btn{
+	width:100%;
+	height:44px;
+	background:#addea6;
+	font-size:17px;
+	color:#fff;
+	border-radius: 3px;
+}
+#verCode .reg-box{
+	margin-top:18px;
+	text-align: center;
+	font-size:14px;
+}
+#verCode .foot-btn{
+	color:#53ae42;
+}
+#verCode .foot-btn.active{
+	color:#cacaca;
+}
+#verCode .btn-default:hover{
+	background:#5cb34c;
+	color:#fff;
+}
+#verCode .btn.active{
+	background:#69c957;
+	color:#fff;
+}
+#verCode .del-ico{
+	position:absolute;
+	display:block;
+	background:url(../img/delete.png);
+	background-size:100%;
+	width:27px;
+	height:27px;
+	top:10px;
+	right:0;
+}
+#verCode .pro-msg{
+	font-size:14px;
+	margin:18px 0;
+	color:#adadad;
+}

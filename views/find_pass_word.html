@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+		<link rel="stylesheet" href="/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/css/login.css"> 
+		<script type="text/javascript" src="/js/jquery.min.js" ></script>
+		<script type="text/javascript" src="/js/touch.js" ></script>
+		<script type="text/javascript" src="/js/login/find_passwd.js"></script>
+		<title></title>
+	</head>
+	<body>
+		<div id="findPassWord" class="container" >
+			<ul class="form-box">
+				<li>
+					<input id="find_email" type="text" placeholder="请输入邮箱账号"/>
+					<span id="delFind"class="del-ico"></span>
+				</li>
+			</ul>
+			<a class="btn btn-default " id="sendCode">发送验证码</a>
+		</div>
+		
+		
+		<div id="verCode" class="container hidden" >
+			<p class="pro-msg">验证码已发送至您的邮箱</p>
+			<ul class="form-box">
+				<li>
+					<input id="valid_code" type="text" placeholder="请填写您收到的验证码"/>
+					<span class="del-ico" id="delCode"></span>
+				</li>
+				
+			</ul>
+			<a class="btn btn-default " id="nextFind">下一步</a>
+			<p class="reg-box">
+				<a id="registerId" class="foot-btn active">没收到？重新发送</a>
+			</p>
+		</div>
+	</body>
+</html>
