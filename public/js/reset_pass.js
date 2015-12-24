@@ -20,7 +20,7 @@ $(function(){
 				async:true,
 				success:function(){
 					alert("恭喜您，密码修改成功！请重新登录！");
-					window.location.href="login.html";
+					window.location.href="login";
 				},
 				error:function(){
 					alert("密码修改失败，请尝试重新修改！")

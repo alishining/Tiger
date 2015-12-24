@@ -51,7 +51,7 @@ $(function(){
 		}else if($("#valid_code").val()!=test){
 			alert("验证码输入错误！")
 		}else{
-			window.location.href="reset_pass_word.html";
+			window.location.href="reset_pass_word";
 		}
 	})
 })

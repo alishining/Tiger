@@ -58,7 +58,7 @@ $(function(){
 	 			success:function(data){
 	 				if(data.code==0){
 	 					alert("恭喜您，注册成功！请返回登录！");
-	 					window.location.href="login.html";
+	 					window.location.href="login";
 	 				}else{
 	 					alert("注册失败");
 	 				}
