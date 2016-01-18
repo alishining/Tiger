@@ -62,6 +62,7 @@ app.get('/find_pass_word', routes.render_forget);
 app.get('/login', routes.render_login);
 app.get('/register', routes.render_register);
 app.get('/reset_pass_word', routes.render_reset);
+app.post('/get_student_sign', routes.get_student_sign);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
 	var err = new Error('Not Found');

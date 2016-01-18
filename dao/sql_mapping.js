@@ -20,7 +20,8 @@ var user = {
 	GET_WX_ID: 'SELECT wx_id FROM student_info WHERE number=? and name=? and class=?',
 	LOAD_USER: 'select * from account',
 	REGISTER: 'INSERT INTO account(email, password, user_id) VALUES(?,?,?)',
-	RESET : 'UPDATE account SET password=? WHERE email=?'
+	RESET : 'UPDATE account SET password=? WHERE email=?',
+	get_student_sign: 'select a.create_time, b.subject from (SELECT a.class_id as class_id, b.create_time as create_time,a.subject_id as subject_id from (select class_id,subject_id from student_sign where number=? and name=?) a LEFT OUTER join class_list b on a.class_id = b.class_id where b.class_id is not null) a LEFT outer join subject_info b on a.subject_id = b.subject_id where b.subject_id is not null'
 };
 
 module.exports = user;

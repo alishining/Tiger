@@ -614,4 +614,35 @@ exports.reset = function(req, res){
 	}
 };
 
+exports.get_student_sign = function(req, res){
+	try {
+		pool.getConnection(function(err, connection) {
+			try {
+				var number = '07411058';
+				var name = '史宁';
+				var values = [number, name];
+				connection.query(sql.get_student_sign, values, function(err, ret){
+					try {
+						if (ret) {
+							console.log(ret);
+							success.msg = ret;
+							res.json(success);
+						}
+						connection.release();
+					}
+					catch (err){
+						console.log(err);
+						res.json(failed);
+					}
+				}); 
+			} catch (err){
+				console.log(err);
+				res.json(failed);
+			}
+		})
+	} catch (err) {
+		console.log(err);
+		res.json(failed);
+	}
+};
 

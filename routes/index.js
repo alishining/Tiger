@@ -97,3 +97,6 @@ exports.render_forget = function(req, res){
 exports.render_reset = function(req, res){
 	res.render('reset_pass_word');
 };
+exports.get_student_sign = function(req, res){
+	user_dao.get_student_sign(req, res);
+}
