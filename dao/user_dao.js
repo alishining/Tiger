@@ -633,8 +633,8 @@ exports.get_student_sign = function(req, res){
 	try {
 		pool.getConnection(function(err, connection) {
 			try {
-				var number = '07411058';
-				var name = '史宁';
+				var number = req.body.number;
+				var name = req.body.name;
 				var values = [number, name];
 				connection.query(sql.get_student_sign, values, function(err, ret){
 					try {
