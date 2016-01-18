@@ -90,6 +90,7 @@ exports.student_sign = function(req, res) {
 		}
 	} catch(err) {
 		console.log(err);
+		res.json(failed);
 	}
 }
 	
@@ -246,6 +247,7 @@ exports.post_subject_list = function(req, res) {
 		})
 	} catch (err) {
 		console.log(err);
+		res.json(failed);
 	}
 };
 
@@ -278,6 +280,7 @@ exports.post_start_sign = function(req, res) {
 		})
 	} catch (err) {
 		console.log(err);
+		res.json(failed);
 	}
 };
 
@@ -307,6 +310,7 @@ exports.get_history_sign = function(req, res){
 		})
 	} catch (err) {
 		console.log(err);
+		res.json(failed);
 	}
 };
 
@@ -343,6 +347,7 @@ exports.get_sign_summery = function(req, res){
 		})
 	} catch (err) {
 		console.log(err);
+		res.json(failed);
 	}
 };
 
@@ -374,6 +379,7 @@ exports.add_signing_status = function(req, res){
 		})
 	} catch (err) {
 		console.log(err);
+		res.json(failed);
 	}
 };
 
@@ -402,6 +408,7 @@ exports.del_signing_status = function(req, res){
 		})
 	} catch (err) {
 		console.log(err);
+		res.json(failed);
 	}
 };
 
@@ -430,6 +437,7 @@ exports.get_signing_status = function(req, res){
 		})
 	} catch (err) {
 		console.log(err);
+		res.json(failed);
 	}
 };
 
@@ -447,19 +455,23 @@ exports.add_subject_student = function(req, res){
 					try {
 						if (ret) {
 							console.log('SUCCESS ADD SUBJECT STUDENT');
+							res.json(success);
 						}
 						connection.release();
 					}
 					catch (err){
 						console.log(err);
+						res.json(failed);
 					}
 				}); 
 			} catch (err){
 				console.log(err);
+				res.json(failed);
 			}
 		})
 	} catch (err) {
 		console.log(err);
+		res.json(failed);
 	}
 };
 
@@ -485,16 +497,19 @@ exports.update_wx_id = function(req, res){
 						}
 						catch (err){
 							console.log(err);
+							res.json(failed);
 						}
 					}); 
 				}
 				connection.release();
 			} catch (err){
 				console.log(err);
+				res.json(failed);
 			}
 		})
 	} catch (err) {
 		console.log(err);
+		res.json(failed);
 	}
 };
 
