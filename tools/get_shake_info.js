@@ -4,8 +4,6 @@ var sql = require('../dao/sql_mapping');
 var pool = require('../dao/mysql_pool').mysql_pool();
 
 var failed = {
-	msg  : "failed",
-	code : -1
 }
 
 var success = {
@@ -38,6 +36,10 @@ exports.get_shake_info = function(request, response){
 			var data = {
 				"ticket" : request.body.ticket
 			};
+			if (request.body.ticket == undefined){
+				response.json(failed);
+				return;
+			};
 			data = JSON.stringify(data);
 			var req = http.request(opt, function(res){
 				chunks = '';
@@ -45,7 +47,6 @@ exports.get_shake_info = function(request, response){
 					chunks += chunk;
 				}).on('end', function() {
 					obj = JSON.parse(chunks);
-
 					try {
 						pool.getConnection(function(err, connection) {
 							try {
@@ -61,17 +62,17 @@ exports.get_shake_info = function(request, response){
 									}
 									catch (err){
 										console.log(err);
-										response.json(ret);
+										response.json(failed);
 									}
 								});
 							} catch (err){
 								console.log(err)
-								response.json(ret);
+								response.json(failed);
 							}
 						})
 					} catch (err) {
 						console.log(err);
-						response.json(ret);
+						response.json(failed);
 					}
 				});
 			});
